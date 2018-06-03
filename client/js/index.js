@@ -3,15 +3,15 @@
 const ingredientList = [{
     name: 'Stone',
     description: 'dasdadsadas',
-    url: 'img/svg/stone.svg'
+    url: '../img/svg/stone.svg'
 }, {
     name: 'Stone1',
     description: 'dasdadsadas1',
-    url: 'img/svg/stone.svg'
+    url: '../img/svg/stone.svg'
 }, {
     name: 'Stone2',
     description: 'da<strong>sdadsa</strong>das2',
-    url: 'img/svg/stone.svg'
+    url: '../img/svg/stone.svg'
 }];
 
 const ingredients = items => {
@@ -49,7 +49,7 @@ const getIngredients = items => {
 
 $(document).ready(() => {
     $('header').load('parts/header.html', () => {
-        $.getScript('js/materialize/materialize.min.js', () => {
+        $.getScript('../js/materialize/materialize.min.js', () => {
             $('.sidenav').sidenav();
             $('.tooltipped').tooltip(); 
         });
@@ -59,7 +59,7 @@ $(document).ready(() => {
     // $('.preloader').load('en/parts/preloader.html', function () {
     //     $(this).addClass('center-align');
     // });
-    $('#glass').load('img/svg/glass.svg', () => {});
+    $('#glass').load('../img/svg/glass.svg', () => {});
     Promise.all(getIngredients(ingredientList))
         .then(data => $('#ingredients').replaceWith(ingredients(data)));
 })
