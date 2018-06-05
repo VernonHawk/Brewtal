@@ -2,15 +2,15 @@
 
 const ingredientList = [{
     name: 'Stone',
-    description: 'dasdadsadas',
+    description: 'Stone',
     url: '../img/svg/stone.svg'
 }, {
     name: 'Stone1',
-    description: 'dasdadsadas1',
+    description: 'Stone',
     url: '../img/svg/stone.svg'
 }, {
     name: 'Stone2',
-    description: 'da<strong>sdadsa</strong>das2',
+    description: 'Stone',
     url: '../img/svg/stone.svg'
 }];
 

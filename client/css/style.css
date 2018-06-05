@@ -82,22 +82,26 @@ footer {
     border: 1px solid blue;
 }
 
-.glass-svg {
+/*.glass-svg {
     height: auto;
     max-height: 400px;
     width: 100%;
-    position: absolute;   
-}
+    position: absolute;  
+    top: 30%; 
+}*/
 
 #glass svg {
     /* background: url(../img/svg/back.svg); */
     padding-top: 25%;
     /* padding-bottom: -100px; */
     /* width: 100%; */
-    height: 100%;
+    max-height: auto;
+    width: 40%;
     position: absolute;
     top: 0;
-    left: 25%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%)
     /* margin: 0 auto; */
     /* right: 0; */
     /* bottom: 0; */
