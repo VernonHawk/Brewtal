@@ -25,7 +25,7 @@ router.get("/ingredients", async (req, res) => {
             glass: getImageLink({ name, subbucket: "glass" })
         }));
         
-        res.status(501).json({ ingredients });
+        res.status(200).json({ ingredients });
     } catch (err) {
         console.error(err);
         const error = { cause: "ingredients", message: "Couldn't get ingredients" };
