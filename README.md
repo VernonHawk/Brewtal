@@ -34,6 +34,8 @@ Apart from that, you will be given an .env file, containing environment variable
 
 ```bash
 PORT = 3000
+
+REGION = "eu-west-2"
 AWS_ACCESS_KEY_ID = XXXX
 AWS_SECRET_ACCESS_KEY = YYYY
 ```
@@ -95,7 +97,7 @@ Continious Delivery system, which handles the deployment, is triggered by push t
 
 - **Ladislava Klischenko** - *Project manager, manual QA* - [LadaKlischenko](https://github.com/LadaKlischenko)
 - **Igor Morenec** - *Team lead, back-end, DevOps* - [VernonHawk](https://github.com/VernonHawk)
-- **Anns Tsukanova** - *Front-end, designer* - [AnnabellFlem](https://github.com/AnnabellFlem)
+- **Anna Tsukanova** - *Front-end, designer* - [AnnabellFlem](https://github.com/AnnabellFlem)
 - **Denys Melnychenko** - *Front-end, designer* - [chelicerae](https://github.com/chelicerae)
 
 ## License
