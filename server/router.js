@@ -11,12 +11,13 @@ const dynamo = require("./dynamoDB");
  * @returns {Object<[Object<string, string, string>] | Object<string, string>>} Response with ingredients list OR error
  */
 router.get("/ingredients", async (req, res) => {
+    const getImageLink = 
+        ({ name, subbucket }) => `https://s3.${process.env.REGION}.amazonaws.com/brewtal.${subbucket}/${name}.svg`;
+
     try {
         const data = await dynamo.scan({ TableName: "Ingredients" }).promise();
 
         const itemsNames = data.Items.map( item => item.Name.toLowerCase() );
-        const getImageLink = 
-            ({ name, subbucket }) => `https://s3.${process.env.REGION}.amazonaws.com/brewtal.${subbucket}/${name}.svg`;
 
         const ingredients = itemsNames.map( name => ({
             name,
