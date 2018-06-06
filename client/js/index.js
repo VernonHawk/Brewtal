@@ -46,9 +46,11 @@ const ingredientRowItem = (item, index, arr) => {
     return `
         ${index == 0 || index % itemPerRow == 0 ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${index % itemPerRow == 0 ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <object type="image/svg+xml" data="${item.url}" class="clickable">
-                <img src="${item.url}" alt=""/>
-            </object>
+            <a id="${item.name}" href="#" class="col s12 clickable">
+                <object type="image/svg+xml" data="${item.url}">
+                    <img src="${item.url}" alt=""/>
+                </object>
+            </a>
         </div>
         <div class="col ${index == arr.length - 1 && index % itemPerRow == 0 ? 's8' : 's3'}">
             <h5>${item.name}</h5>
@@ -173,19 +175,20 @@ const loadIngredients = (items, startPos = 0) => {
             break;
         }
     }
+    $('#ingredients > div:first-child .clickable').click(e => {
+        let item = e.target;
+        console.log(item.id);
+    });
     if ($('#pagebar').length) {
         updatePageButtons();
     } else {
         $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
             $('#pagebar .clickable').click(e => {
-                let btn = $(e.target);
-                if (!btn.hasClass('disable')) {
+                let item = $(e.target);
+                if (!item.hasClass('disable')) {
                     let firstIndex = $('#ingredients > div:first-child > .row:first > .tooltipped:first').data('index');
                     
-                    // console.log(`${firstIndex}, ${btn.data('direction')}, ${currentItemCount}`);
-                    loadIngredients(ingredientList, firstIndex + btn.data('direction') * currentItemCount);
-                    //console.log($('#ingredients > .row').length * itemPerRow);
-                    //console.log($('#ingredients > .row:first > .tooltipped:first').data('index'));
+                    loadIngredients(ingredientList, firstIndex + item.data('direction') * currentItemCount);
                 }
             });
             updatePageButtons();
