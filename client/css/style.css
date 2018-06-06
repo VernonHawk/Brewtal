@@ -8,11 +8,11 @@ main {
     -webkit-flex: 1 0 auto;
     flex: 1 0 auto;
     display: block;
-    margin: 0!important;
+    margin: 0 !important;
 }
 
 footer {
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 @font-face {
@@ -47,16 +47,17 @@ footer {
     font-feature-settings: 'liga';
 }
 
-.clickable:hover {
+.clickable:not(.disable):hover {
     -webkit-filter: drop-shadow(5px 5px 2px rgba(0, 0, 0, 0.5));
     filter: drop-shadow(5px 5px 2px rgba(0, 0, 0, 0.5));
 }
 
-.clickable:active {
+.clickable:not(.disable):active {
     transform: translate(2px, 2px);
     -webkit-transform: translate(2px, 2px);
     -ms-transform: translate(2px, 2px);
 }
+
 .disable {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
@@ -64,6 +65,21 @@ footer {
 
 .hidden {
     display: none;
+}
+
+.row a[class~='clickable']:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.row a[class~='clickable'] {
+    position: relative;
+    display: inline-block;
+    padding: 0;
 }
 
 #ingredients {
@@ -89,7 +105,6 @@ footer {
 
 #ingredients .col {
     /* border: 1px solid darkblue; */
-    
 }
 
 #ingredients .row {
@@ -97,6 +112,7 @@ footer {
     margin-right: 0;
     border: 1px solid darkblue;
 }
+
 #ingredients .row:last-child {
     margin-bottom: 0;
 }
@@ -138,10 +154,9 @@ footer {
     right: 0;
     display: flex;
     justify-content: center;
-    align-items: flex-end; 
-    
+    align-items: flex-end;
     /* transform: translate(-50%,-50%); */
-        /* padding-top: 0px;
+    /* padding-top: 0px;
     padding-bottom: 0px; */
     /* padding-top: 20%;  */
     /* text-align: center;
@@ -156,23 +171,22 @@ footer {
     /* padding-top: 25%; */
     /* padding-bottom: -100px; */
     /* width: 100%; */
-
     /* height: 100%;
     position: absolute;
     top: 0;
     left: 20%; */
-
     /* margin: 0 auto; */
     /* right: 0; */
     /* bottom: 0; */
 }
+
 #glass div {
     border: 4px solid rebeccapurple;
     /* position: absolute;
     top: 50%; */
-    
 }
-main >.row {
+
+main>.row {
     /* margin: 0!important; */
     /* position: relative; */
     /* border: 1px solid red; */
@@ -182,10 +196,12 @@ main >.row {
 /* footer {
     z-index: 9999;
 } */
+
 /*
 .row>.col {
     padding: 0;
 } */
+
 /* main {
     border: 1px solid green;
 } */

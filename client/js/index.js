@@ -1,5 +1,6 @@
 'use strict';
 
+let currentItemCount = 0;
 const itemPerRow = 2;
 const ingredientList = [{
         name: 'Stone',
@@ -53,7 +54,7 @@ const ingredientRowItem = (item, index, arr) => {
             <h5>${item.name}</h5>
             <p class="truncate">${item.description}</p>
         </div>
-        ${index == arr.length - 1 || (index + 1) % itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[index + 1], index + 1, arr)}`}`
+        ${index == arr.length - 1 || (index + 1) % itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[index + 1], index + 1, arr)}`}`;
 };
 /*
 const ingredients = items => {
@@ -96,20 +97,6 @@ const ingredients = items => {
 // Promise.all(getIngredients(ingredientList))
 //     .then(data => $('#ingredients').replaceWith(ingredients(data)));
 
-const loadIngredients = (items, index = 0) => {
-    // $('#ingredients').empty();
-    for (let i = index, rowHeight, parentHeight; i < items.length; i += itemPerRow) {
-        $('#ingredients').append(ingredientRowItem(items[i], i, items));
-        if (!i) {
-            rowHeight = $('#ingredients .row:first-child').height();
-            parentHeight = $('#ingredients').height();
-            }
-        if (parentHeight < (i / itemPerRow + 2) * rowHeight) {
-            break;
-        }
-    }
-};
-
 $(document).ready(() => {
     // $('header').load('parts/header.html', () => {
     $.getScript('js/materialize/materialize.min.js', () => {
@@ -145,30 +132,67 @@ $(document).ready(() => {
     `);
     //    $('#ingredients').replaceWith(ingredients(ingredientList));
 
-    // for (let i = 0, rowHeight, parentHeight; i < ingredientList.length; i += itemPerRow) {
-    //     $('#ingredients').append(ingredientRowItem(ingredientList[i], i, ingredientList));
-    //     if (!i) {
-    //         rowHeight = $('#ingredients .row:first-child').height();
-    //         parentHeight = $('#ingredients').height();
-    //     }
-    //     if (parentHeight < (i / itemPerRow + 2) * rowHeight) {
-    //         break;
-    //     }
-    // }
     loadIngredients(ingredientList);
-    $('#ingredients').append($('<div>').load('parts/pagebar.html'));
-    let rowCount = $('#ingredients > .row').length;
-    let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
-     if (rowCount < maxRowCount) {
-        $('#ingredients > div:last-child').removeClass('hidden');
-        let index = $('#ingredients .row:first-child .col:first-child').data('index');
-        console.log($('#ingredients > div:last-child div').length);
-        alert($('#ingredients  > div:last-child > object:first-child').length);//.css("background-color", "yellow");//addClass('disable');//toggleClass('disable', true);//index !== 0);
-    } else {
-        $('#ingredients > div:last-child').addClass('hidden');
-    }
+    // $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
+    //     let firstIndex = $('#ingredients > .row:first > .tooltipped:first').data('index');
+    //     let lastIndex = $('#ingredients > .row:last > .tooltipped:last').data('index');
+    //     $('#pagebar > object:first').toggleClass('disable', firstIndex === 0);
+    //     $('#pagebar > object:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
+    // }));
+
+    // let rowCount = $('#ingredients > .row').length;
+    // let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
+    // $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
     // $(window).resize();//delete    
-})
+});
+
+const loadIngredients = (items, startPos = 0) => {
+    // $('#ingredients').empty();
+//    console.log('start: ' + startPos);
+    const updatePageButtons = () => {
+        let firstIndex = $('#ingredients > div:first-child > .row:first > .tooltipped:first').data('index');
+        let lastIndex = $('#ingredients > div:first-child > .row:last > .tooltipped:last').data('index');
+        $('#pagebar .clickable:first').toggleClass('disable', firstIndex === 0);
+        $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
+    };
+    const updatePageBar = () => {
+        let rowCount = $('#ingredients > div:first-child > .row').length;
+        let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
+        $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
+    };
+    
+    $('#ingredients > div:first-child').empty();
+    for (let i = startPos, j = 0, rowHeight, parentHeight; i < items.length; i += itemPerRow, j++) {
+        $('#ingredients > div:first-child').append(ingredientRowItem(items[i], i, items));
+        if (!j) {
+            rowHeight = $('#ingredients > div:first-child > .row:first-child').height();
+            parentHeight = $('#ingredients').height();
+        }
+        if (parentHeight < (j + 2) * rowHeight) {
+            currentItemCount = (j + 1) * itemPerRow;
+            break;
+        }
+    }
+    if ($('#pagebar').length) {
+        updatePageButtons();
+    } else {
+        $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
+            $('#pagebar .clickable').click(e => {
+                let btn = $(e.target);
+                if (!btn.hasClass('disable')) {
+                    let firstIndex = $('#ingredients > div:first-child > .row:first > .tooltipped:first').data('index');
+                    
+                    // console.log(`${firstIndex}, ${btn.data('direction')}, ${currentItemCount}`);
+                    loadIngredients(ingredientList, firstIndex + btn.data('direction') * currentItemCount);
+                    //console.log($('#ingredients > .row').length * itemPerRow);
+                    //console.log($('#ingredients > .row:first > .tooltipped:first').data('index'));
+                }
+            });
+            updatePageButtons();
+        }));
+    }
+    updatePageBar();
+};
 
 $(window).resize(() => {
     //console.log($('#pagebar > object').length);
