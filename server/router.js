@@ -4,25 +4,25 @@ const router = require("express").Router();
 const dynamo = require("./dynamoDB");
 
 /**
- * Get ingredients list with images
+ * Get ingredients list
  * 
  * @async
  * 
- * @returns {Object<[Object<string, string, string>] | Object<string, string>>} Response with ingredients list OR error
+ * @returns {Object<[Object<string, string, string, string>]> | Object<string, string>} 
+ *          Response with ingredients list OR error
  */
 router.get("/ingredients", async (req, res) => {
-    const getImageLink = 
-        ({ name, subbucket }) => `https://s3.${process.env.REGION}.amazonaws.com/brewtal.${subbucket}/${name}.svg`;
+    const getImageLink = ({ name, bucket }) => 
+        `https://s3.${ process.env.REGION }.amazonaws.com/${ bucket }/${ name.toLowerCase() }.svg`;
 
     try {
         const data = await dynamo.scan({ TableName: "Ingredients" }).promise();
-
-        const itemsNames = data.Items.map( item => item.Name.toLowerCase() );
-
-        const ingredients = itemsNames.map( name => ({
-            name,
-            table: getImageLink({ name, subbucket: "table" }),
-            glass: getImageLink({ name, subbucket: "glass" })
+        
+        const ingredients = data.Items.map( ({ Name: name, Description }) => ({
+            name: name.toLowerCase(),
+            description: Description || "",
+            table: getImageLink({ name, bucket: process.env.BUCKET_TABLE }),
+            glass: getImageLink({ name, bucket: process.env.BUCKET_GLASS })
         }));
         
         res.status(200).json({ ingredients });

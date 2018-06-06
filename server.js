@@ -1,8 +1,8 @@
 "use strict";
 
-const express    = require("express");
-const helmet     = require("helmet");
-const path       = require("path");
+const express = require("express");
+const helmet  = require("helmet");
+const path    = require("path");
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     require("dotenv").config();
