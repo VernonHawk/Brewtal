@@ -1,112 +1,85 @@
 'use strict';
 
 let currentItemCount = 0;
+let currentItemPage = 0;
+let ingredients;
+
 const itemPerRow = 2;
 const ingredientList = [{
-        name: 'Stone',
-        description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-        url: '../img/svg/stone.svg'
+    name: 'Stone',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    url: '../img/svg/stone.svg'
 }, {
-        name: 'Stone1',
-        description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-        url: '../img/svg/stone.svg'
+    name: 'Stone1',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    url: '../img/svg/stone.svg'
 }, {
-        name: 'Stone2',
-        description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-        url: '../img/svg/stone.svg'
-    }
-    , {
-            name: 'Stone3',
-            description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-            url: '../img/svg/stone.svg'
-        }, {
-            name: 'Stone4',
-            description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-            url: '../img/svg/stone.svg'
-        }, {
-            name: 'Grass1',
-            description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-            url: '../img/svg/stone.svg'
-        }, {
-            name: 'Grass2',
-            description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-            url: '../img/svg/stone.svg'
-        }, {
-            name: 'Grass3',
-            description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-            url: '../img/svg/stone.svg'
-        }, {
-            name: 'Grass4',
-            description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-            url: '../img/svg/stone.svg'
-        }
-];
+    name: 'Stone2',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    url: '../img/svg/stone.svg'
+}, {
+    name: 'Stone3',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    url: '../img/svg/stone.svg'
+}, {
+    name: 'Stone4',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    url: '../img/svg/stone.svg'
+}, {
+    name: 'Grass1',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    url: '../img/svg/stone.svg'
+}, {
+    name: 'Grass2',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    url: '../img/svg/stone.svg'
+}, {
+    name: 'Grass3',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    url: '../img/svg/stone.svg'
+}, {
+    name: 'Grass4',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    url: '../img/svg/stone.svg'
+}];
 
 const ingredientRowItem = (item, index, arr) => {
+    let isEven = index % itemPerRow == 0;
+    let nextIndex = index + 1;
+
     return `
-        ${index == 0 || index % itemPerRow == 0 ? '<div class="row valign-wrapper">' : ''}
-        <div class="col ${index % itemPerRow == 0 ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
+        ${index == 0 || isEven ? '<div class="row valign-wrapper">' : ''}
+        <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
             <a id="${item.name}" href="#" class="col s12 clickable">
                 <object type="image/svg+xml" data="${item.url}">
                     <img src="${item.url}" alt=""/>
                 </object>
             </a>
         </div>
-        <div class="col ${index == arr.length - 1 && index % itemPerRow == 0 ? 's8' : 's3'}">
+        <div class="col ${nextIndex == arr.length && isEven ? 's8' : 's3'}">
             <h5>${item.name}</h5>
             <p class="truncate">${item.description}</p>
         </div>
-        ${index == arr.length - 1 || (index + 1) % itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[index + 1], index + 1, arr)}`}`;
+        ${nextIndex == arr.length || nextIndex % itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
 };
-/*
-const ingredients = items => {
-    return `
-        <div id="ingredients" class="col s6">
-            ${items.map((item, index, arr) => `
-                ${index == 0 || index % 2 == 0 ? '<div class="row valign-wrapper">' : ''}
-                <div class="col ${index % 2 == 0 ? 'offset-s2' : ''} s2 tooltipped" data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-                    <object type="image/svg+xml" data="${item.url}" class="clickable">
-                        <img src="${item.url}" alt=""/>
-                    </object>
-                </div>
-                <div class="col ${index == arr.length - 1 && index % 2 == 0 ? 's8' : 's3'}">
-                    <h5>${item.name}</h5>
-                    <p class="truncate">${item.description}</p>
-                </div>
-                ${index == arr.length - 1 || (index + 1) % 2 == 0 ? '</div>' : ''}
-            `)
-            .join('')}
-        </div>`;
+
+const getChangesCount = () => {
+    let container = $('#ingredients > div:first-child');
+    let rowHeight = container.find('.row:first-child').outerHeight(true);
+    let parentHeight = $('#ingredients').height();
+
+    console.log(Math.floor(parentHeight / rowHeight) - 1, container.find('.row').length, Math.ceil(ingredientList.length / itemPerRow),
+        Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1
+    );
+    console.log(currentItemCount);//currentItemCount / itemPerRow
+    return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
 };
-*/
-//<h5>${item.name}</h5><p class="truncate">${item.description}</p>
-// const getIngredients = items => {
-//     const promises = items.map(async item => {
-//         const response = await $.get({
-//             url: item.url,
-//             dataType: 'text'
-//         });
-
-//         return {
-//             name: item.name,
-//             description: item.description,
-//             svg: response
-//         };
-//     });
-
-//     return promises;
-// };
-// Promise.all(getIngredients(ingredientList))
-//     .then(data => $('#ingredients').replaceWith(ingredients(data)));
 
 $(document).ready(() => {
     // $('header').load('parts/header.html', () => {
     $.getScript('js/materialize/materialize.min.js', () => {
         $('.sidenav').sidenav();
-        $('.tooltipped').tooltip(); //{delay: 50});
-        // $('svg').on('hover', () => {
-        //     $('.tooltipped').open();
-        // });
+        $('.tooltipped').tooltip();
     });
     //});
 
@@ -114,12 +87,6 @@ $(document).ready(() => {
     // $('.preloader').load('en/parts/preloader.html', function () {
     //     $(this).addClass('center-align');
     // });
-    // $('#glass').load('img/svg/glass.svg', () => {});
-    // $('#glass').append(`
-    //     <object type="image/svg+xml" data="img/svg/glass.svg">
-    //         <img src="img/svg/glass.svg" alt=""/>
-    //     </object>
-    // `);
     $('#glass').append(`
         <div class="row">
             <div class="col offset-s1 s2"></div>
@@ -132,50 +99,41 @@ $(document).ready(() => {
         <div class="col s1"></div>
         </div>
     `);
-    //    $('#ingredients').replaceWith(ingredients(ingredientList));
 
     loadIngredients(ingredientList);
-    // $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
-    //     let firstIndex = $('#ingredients > .row:first > .tooltipped:first').data('index');
-    //     let lastIndex = $('#ingredients > .row:last > .tooltipped:last').data('index');
-    //     $('#pagebar > object:first').toggleClass('disable', firstIndex === 0);
-    //     $('#pagebar > object:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
-    // }));
-
-    // let rowCount = $('#ingredients > .row').length;
-    // let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
-    // $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
-    // $(window).resize();//delete    
 });
 
 const loadIngredients = (items, startPos = 0) => {
-    // $('#ingredients').empty();
-//    console.log('start: ' + startPos);
+    let container = $('#ingredients > div:first-child');
+
     const updatePageButtons = () => {
-        let firstIndex = $('#ingredients > div:first-child > .row:first > .tooltipped:first').data('index');
-        let lastIndex = $('#ingredients > div:first-child > .row:last > .tooltipped:last').data('index');
-        $('#pagebar .clickable:first').toggleClass('disable', firstIndex === 0);
+        let firstIndex = container.find('.row:first > .tooltipped:first').data('index');
+        let lastIndex = container.find('.row:last > .tooltipped:last').data('index');
+        $('#pagebar .clickable:first').toggleClass('disable', firstIndex == 0);
         $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
     };
     const updatePageBar = () => {
-        let rowCount = $('#ingredients > div:first-child > .row').length;
+        let rowCount = container.find('.row').length;
         let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
         $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
     };
-    
-    $('#ingredients > div:first-child').empty();
+
+    container.empty();
     for (let i = startPos, j = 0, rowHeight, parentHeight; i < items.length; i += itemPerRow, j++) {
-        $('#ingredients > div:first-child').append(ingredientRowItem(items[i], i, items));
+        $(ingredientRowItem(items[i], i, items))
+            .hide()
+            .appendTo(container)
+            .fadeIn(1000);
         if (!j) {
-            rowHeight = $('#ingredients > div:first-child > .row:first-child').height();
+            rowHeight = container.find('.row:first-child').outerHeight(true);
             parentHeight = $('#ingredients').height();
         }
-        if (parentHeight < (j + 2) * rowHeight) {
+        if (parentHeight < (j + 1) * rowHeight) {
             currentItemCount = (j + 1) * itemPerRow;
             break;
         }
     }
-    $('#ingredients > div:first-child .clickable').click(e => {
+    container.find('.clickable').click(e => {
         let item = e.target;
         console.log(item.id);
     });
@@ -186,9 +144,11 @@ const loadIngredients = (items, startPos = 0) => {
             $('#pagebar .clickable').click(e => {
                 let item = $(e.target);
                 if (!item.hasClass('disable')) {
-                    let firstIndex = $('#ingredients > div:first-child > .row:first > .tooltipped:first').data('index');
-                    
-                    loadIngredients(ingredientList, firstIndex + item.data('direction') * currentItemCount);
+                    let firstIndex = container.find('.row:first > .tooltipped:first').data('index');
+                    let direction = item.data('direction');
+
+                    currentItemPage += direction;
+                    loadIngredients(ingredientList, firstIndex + direction * currentItemCount);
                 }
             });
             updatePageButtons();
@@ -198,19 +158,14 @@ const loadIngredients = (items, startPos = 0) => {
 };
 
 $(window).resize(() => {
-    //console.log($('#pagebar > object').length);
-    // let rowCount = $('#ingredients > .row').length;
-    // let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
+    let changesCount = getChangesCount();
 
-    // if (rowCount < maxRowCount) {
-    //     $('#ingredients > div:last-child').removeClass('hidden');
-        // let index = $('#ingredients .row:first-child .col:first-child').data('index');
-    // } else {
-    //     $('#ingredients > div:last-child').addClass('hidden');
-    // }
-    // $('#pagebar object:first-child').addClass('disable');//toggleClass('disable', index === 0);
-    // console.log($('#pagebar object:first-child').html());
-
+    if (changesCount) {
+        if (changesCount < 0) {
+            // console.log(getChangesCount());//delete
+        } else {
+            //append
+        }
+    }
     // loadIngredients(ingredientList);
-});    
-
+});
