@@ -97,7 +97,7 @@ footer {
 
 #ingredients .row {
     margin-right: 0;
-    border: 1px solid red;
+    /* border: 1px solid red; */
 }
 
 #ingredients>div:last-child {
