@@ -2,15 +2,15 @@
 
 const ingredientList = [{
     name: 'Stone',
-    description: 'dasdadsadas',
+    description: 'Stone',
     url: '../img/svg/stone.svg'
 }, {
     name: 'Stone1',
-    description: 'dasdadsadas1',
+    description: 'Stone',
     url: '../img/svg/stone.svg'
 }, {
     name: 'Stone2',
-    description: 'da<strong>sdadsa</strong>das2',
+    description: 'Stone',
     url: '../img/svg/stone.svg'
 }];
 
@@ -48,14 +48,14 @@ const getIngredients = items => {
 };
 
 $(document).ready(() => {
-    $('header').load('parts/header.html', () => {
-        $.getScript('../js/materialize/materialize.min.js', () => {
-            $('.sidenav').sidenav();
-            $('.tooltipped').tooltip(); 
-        });
-    });
+    // $('header').load('parts/header.html', () => {
+    //     $.getScript('../js/materialize/materialize.min.js', () => {
+    //         $('.sidenav').sidenav();
+    //         $('.tooltipped').tooltip(); 
+    //     });
+    // });
 
-    $('footer').load('parts/footer.html', () => {});
+    // $('footer').load('parts/footer.html', () => {});
     // $('.preloader').load('en/parts/preloader.html', function () {
     //     $(this).addClass('center-align');
     // });
