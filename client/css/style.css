@@ -97,13 +97,14 @@ footer {
 
 #ingredients .row {
     margin-right: 0;
-    /* border: 1px solid red; */
+    border: 1px solid red;
 }
 
 #ingredients>div:last-child {
-    /* border: 1px solid green; */
+    /* border: 3px solid green; */
     position: absolute;
-    bottom: 0px;
+    bottom: 0px;/*padding-right check on green*/
+    width: 100%;
 }
 
 #glass {

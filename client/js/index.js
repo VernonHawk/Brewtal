@@ -2,7 +2,7 @@
 
 let currentItemCount = 0;
 let currentItemPage = 0;
-let ingredients;
+let availableRowCount;
 
 const itemPerRow = 2;
 const ingredientList = [{
@@ -51,9 +51,7 @@ const ingredientRowItem = (item, index, arr) => {
         ${index == 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
             <a id="${item.name}" href="#" class="col s12 clickable">
-                <object type="image/svg+xml" data="${item.url}">
                     <img src="${item.url}" alt=""/>
-                </object>
             </a>
         </div>
         <div class="col ${nextIndex == arr.length && isEven ? 's8' : 's3'}">
@@ -62,16 +60,25 @@ const ingredientRowItem = (item, index, arr) => {
         </div>
         ${nextIndex == arr.length || nextIndex % itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
 };
+/*
+                <object type="image/svg+xml" data="${item.url}">
+                    <img src="${item.url}" alt=""/>
+                </object>
+
+*/
 
 const getChangesCount = () => {
     let container = $('#ingredients > div:first-child');
     let rowHeight = container.find('.row:first-child').outerHeight(true);
     let parentHeight = $('#ingredients').height();
 
+    // console.log("r:" + $('#ingredients > div:first-child').outerHeight(true));
+
     console.log(Math.floor(parentHeight / rowHeight) - 1, container.find('.row').length, Math.ceil(ingredientList.length / itemPerRow),
         Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1
     );
-    console.log(currentItemCount);//currentItemCount / itemPerRow
+    // console.log(currentItemCount);//currentItemCount / itemPerRow
+    //console.log(availableRowCount);//currentItemCount / itemPerRow
     return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
 };
 
@@ -109,12 +116,14 @@ const loadIngredients = (items, startPos = 0) => {
     const updatePageButtons = () => {
         let firstIndex = container.find('.row:first > .tooltipped:first').data('index');
         let lastIndex = container.find('.row:last > .tooltipped:last').data('index');
+
         $('#pagebar .clickable:first').toggleClass('disable', firstIndex == 0);
         $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
     };
     const updatePageBar = () => {
         let rowCount = container.find('.row').length;
         let maxRowCount = Math.ceil(ingredientList.length / itemPerRow);
+
         $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
     };
 
@@ -127,9 +136,10 @@ const loadIngredients = (items, startPos = 0) => {
         if (!j) {
             rowHeight = container.find('.row:first-child').outerHeight(true);
             parentHeight = $('#ingredients').height();
+            availableRowCount = Math.floor(parentHeight / rowHeight) - 1;
         }
-        if (parentHeight < (j + 1) * rowHeight) {
-            currentItemCount = (j + 1) * itemPerRow;
+        if (j + 1 == availableRowCount) {
+            currentItemCount = availableRowCount * itemPerRow;
             break;
         }
     }
@@ -154,15 +164,22 @@ const loadIngredients = (items, startPos = 0) => {
             updatePageButtons();
         }));
     }
-    updatePageBar();
+    updatePageBar();//--all browsers!
 };
 
 $(window).resize(() => {
     let changesCount = getChangesCount();
 
     if (changesCount) {
+        let container = $('#ingredients > div:first-child');
+
         if (changesCount < 0) {
-            // console.log(getChangesCount());//delete
+            while (changesCount != 0) {
+                console.log(-111);
+                container.find('.row:last-child').remove();
+                changesCount++;
+            }
+            // console.log(1111);//delete
         } else {
             //append
         }
