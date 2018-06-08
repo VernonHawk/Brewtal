@@ -29,9 +29,9 @@ function startServer() {
 
     app.set("port", process.env.PORT || 3000);
     
-    app.listen(app.get("port"), () => console.log(`App listening on port ${app.get("port")}`)); 
+    return app.listen(app.get("port"), () => console.log(`App listening on port ${app.get("port")}`));
 }
 
-startServer();
+const server = startServer();
 
-module.exports.start = startServer;
+module.exports = server;
