@@ -147,7 +147,6 @@ footer {
 }
 
 .glass-wrapper .layers-wrapper {
-    perspective: 1000px;
     z-index: 5;
 }
 
@@ -161,10 +160,16 @@ footer {
 }
 
 .layer {
+    perspective: 1000px;
     width: 20%;
     margin: auto;
+    -webkit-background-size: cover;
     /*border: 1px black solid;*/
-    background-color: #83FEFF;
+}
+
+.layer-ingredient {
+    background-color: #4AFFF3;
+    background-size: cover;
 }
 
 .wrapper__top-fix {
@@ -182,6 +187,8 @@ footer {
 .layer__4 {
     height: 100%;
     transform: rotateX(-10deg);
+
+    background-image: url("../img/svg/ingredient-backgrounds/stone.svg");
 }
 
 .layer-wrapper__3 {
@@ -195,6 +202,8 @@ footer {
 .layer__3 {
     height: 100%;
     transform: rotateX(-12deg);
+
+    background-image: url("../img/svg/ingredient-backgrounds/tomato.svg");
 }
 
 .layer-wrapper__2 {
@@ -208,6 +217,8 @@ footer {
 .layer__2 {
     height: 100%;
     transform: rotateX(-8deg);
+
+    background-image: url("../img/svg/ingredient-backgrounds/dirt.svg");
 }
 
 .layer-wrapper__1 {
@@ -216,13 +227,15 @@ footer {
     -ms-transform: translate(2%, 5%);
     -o-transform: translate(2%, 5%);
     transform: translate(2%, 5%);
-    border-bottom-left-radius: 40% 20%;
-    border-bottom-right-radius: 40% 20%;
 }
 
 .layer__1 {
     height: 100%;
     transform: rotateX(-10deg);
+    border-bottom-left-radius: 40% 20%;
+    border-bottom-right-radius: 40% 20%;
+
+    background-image: url("../img/svg/ingredient-backgrounds/orange.svg");
 }
 
 .layer-cross {
