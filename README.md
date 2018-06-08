@@ -58,9 +58,6 @@ Examples:
 ```bash
 > npm run dev-server
 
-brewtal@version dev-server Disk:\path\to\the\project\Brewtal
-nodemon server.js
-
 [nodemon] 1.17.5
 [nodemon] to restart at any time, enter `rs`
 [nodemon] watching: *.*
@@ -71,15 +68,17 @@ App listening on port 3000!
 ```bash
 > npm run start
 
-brewtal@version start Disk:\path\to\the\project\Brewtal
-node server.js
-
 App listening on port 3000!
 ```
 
 ## Running the tests
 
-Tests are currently not implemented, but will be!
+Tests are powered by [Mocha](https://mochajs.org), [Chai](http://www.chaijs.com/), [Supertest](https://www.npmjs.com/package/supertest) and [Istanbul](https://istanbul.js.org/).\
+To run the test suite, run `npm test`:
+
+```bash
+> npm test
+```
 
 ## Deployment
 
