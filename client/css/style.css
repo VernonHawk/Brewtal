@@ -108,6 +108,8 @@ footer {
 
 #glass {
     background: url(../img/svg/back.svg);
+    background-repeat: no-repeat;
+    background-position: center top;
     height: 100%;
     position: absolute;
     top: 0;
@@ -126,6 +128,71 @@ footer {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+}
+
+.glass-wrapper {
+    width: 100%;
+    height: 100%
+    position: relative;
+}
+
+.glass-wrapper .glass,
+.glass-wrapper .layers-wrapper {
+    width: 100%;
+    height: 70%;
+    position: absolute;
+    /*top: 0;*/
+    bottom: 5%;
+    left: 0;
+}
+
+.glass-wrapper .layers-wrapper {
+    perspective: 1000px;
+    z-index: 5;
+}
+
+.glass-wrapper .glass {
+    text-align: center;
+    z-index: 10;
+}
+
+.glass-wrapper .glass img {
+    height: 100%;
+}
+
+.layer {
+    height: 50px;
+    width: 20%;
+    margin: auto;
+    /*border: 1px black solid;*/
+    background-color: #83FEFF;
+}
+
+.wrapper__top-fix {
+    height: 14%;
+}
+
+.layers-wrapper__4 {
+    height: 16%;
+    transform: translate(2%, 3%) rotateX(-10deg);
+    
+}
+
+.layers-wrapper__3 {
+    height: 16.5%;
+    transform:translate(2%, 6%) rotateX(-12deg);
+}
+
+.layers-wrapper__2 {
+    height: 18%;
+    transform:translate(2%, 8%) rotateX(-8deg);
+}
+
+.layers-wrapper__1 {
+    height: 21%;
+    transform:translate(2%, 5%) rotateX(-10deg);
+    border-bottom-left-radius: 40% 20%;
+    border-bottom-right-radius: 40% 20%;
 }
 
 /* footer {
