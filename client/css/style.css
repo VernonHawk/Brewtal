@@ -178,25 +178,25 @@ footer {
 
 .layer-wrapper__4 {
     height: 16%;
-    -webkit-transform: translate(2%, 3%);
-    -ms-transform: translate(2%, 3%);
-    -o-transform: translate(2%, 3%);
-    transform: translate(2%, 3%);
+    -webkit-transform: translate(2%,12%);
+    -ms-transform: translate(2%,12%);
+    -o-transform: translate(2%,12%);
+    transform: translate(2%,12%);
 }
 
 .layer__4 {
     height: 100%;
-    transform: rotateX(-10deg);
+    transform: rotateX(-12deg);
 
     background-image: url("../img/svg/ingredient-backgrounds/stone.svg");
 }
 
 .layer-wrapper__3 {
     height: 16.5%;
-    -webkit-transform: translate(2%, 6%);
-    -ms-transform: translate(2%, 6%);
-    -o-transform: translate(2%, 6%);
-    transform: translate(2%, 6%);
+    -webkit-transform: translate(2%, 11.5%);
+    -ms-transform: translate(2%, 11.5%);
+    -o-transform: translate(2%, 11.5%);
+    transform: translate(2%, 11.5%);
 }
 
 .layer__3 {
