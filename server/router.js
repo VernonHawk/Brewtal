@@ -18,8 +18,9 @@ router.get("/ingredients", async (req, res) => {
     try {
         const data = await dynamo.scan({ TableName: "Ingredients" }).promise();
         
-        const ingredients = data.Items.map( ({ Name: name, Description }) => ({
-            name: name.toLowerCase(),
+        const ingredients = data.Items.map( ({ Id: id, Name: name, Description }) => ({
+            id, 
+            name: name || id,
             description: Description || "",
             table: getImageLink({ name, bucket: process.env.BUCKET_TABLE }),
             glass: getImageLink({ name, bucket: process.env.BUCKET_GLASS })

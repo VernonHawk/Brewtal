@@ -10,15 +10,15 @@
     "url": "https://github.com/VernonHawk/Brewtal/issues"
   },
   "license": "gpl-3.0",
-  "main": "server.js",
+  "main": "start.js",
   "engines": {
     "node": "10.2.1",
     "npm": "6.0.1"
   },
   "scripts": {
-    "dev-server": "nodemon server.js",
-    "start": "node server.js",
-    "test": "nyc mocha --recursive test --timeout 20000"
+    "dev-server": "nodemon start.js",
+    "start": "node start.js",
+    "test": "nyc mocha --recursive test --timeout 10000"
   },
   "nodemonConfig": {
     "ignore": [
