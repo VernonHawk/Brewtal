@@ -12,7 +12,7 @@ const router = require("./router");
 
 const app = express();
 
-const CLIENT_PATH = path.resolve("client");
+const CLIENT_PATH = path.resolve(`${__dirname}/../client`);
 
 function mapRoutes() {
     app.use("/api", router);
