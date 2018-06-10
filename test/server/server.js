@@ -3,12 +3,13 @@
 require("chai").should();
 const request = require("supertest");
 
-let SERVER = {};
+const startServer = require("../../server/server");
 
 describe("Our server", () => {
-    
+    let SERVER = {};
+
     before("Start server", () => {
-        SERVER = require("../../server.js");
+        SERVER = startServer();
     });
 
     describe("Server started correctly", () => {

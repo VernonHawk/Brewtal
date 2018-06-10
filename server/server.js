@@ -8,11 +8,11 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
     require("dotenv").config();
 }
 
-const router = require("./server/router");
+const router = require("./router");
 
 const app = express();
 
-const CLIENT_PATH = path.resolve(`${__dirname}/client`);
+const CLIENT_PATH = path.resolve("client");
 
 function mapRoutes() {
     app.use("/api", router);
@@ -32,6 +32,4 @@ function startServer() {
     return app.listen(app.get("port"), () => console.log(`App listening on port ${app.get("port")}`));
 }
 
-const server = startServer();
-
-module.exports = server;
+module.exports = startServer;
