@@ -76,6 +76,5 @@ describe("Our server", () => {
 
     after("Shut down server", done => {
         SERVER.close(done);
-        console.log('2222');
     });
 });
