@@ -3,9 +3,9 @@
 require("chai").should();
 const request = require("supertest");
 
-let SERVER = {};
 
 describe("Our server", () => {
+    let SERVER = {};
     
     before("Start server", () => {
         SERVER = require("../../server.js");
@@ -76,5 +76,6 @@ describe("Our server", () => {
 
     after("Shut down server", done => {
         SERVER.close(done);
+        console.log('2222');
     });
 });
