@@ -58,11 +58,12 @@ describe("Our server", () => {
                 .that.is.not.empty;
         });
 
-        it("all ingredients should have properties: name, description, table and glass", async () => {
+        it("all ingredients should have required properties", async () => {
             const resp = await request(SERVER).get("/api/ingredients");
 
             resp.body.ingredients
-                .every( item => item.should.have.all.keys("name", "description", "glass", "table"));
+                .every( item => 
+                    item.should.have.all.keys("id", "name", "description", "glass", "table"));
         });
     });
 
