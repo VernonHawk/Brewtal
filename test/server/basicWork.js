@@ -12,7 +12,7 @@ describe("Our server", () => {
         SERVER = startServer();
     });
 
-    describe("Server started correctly", () => {
+    describe("Started correctly", () => {
         it("should have correct environment variables", () => {
             const env = process.env;
 
@@ -41,42 +41,5 @@ describe("Our server", () => {
         );
     });
 
-    describe("Get ingredients", () => {
-        it("should return json with status 200", () =>
-            request(SERVER)
-                .get("/api/ingredients")
-                .expect("Content-Type", /json/)
-                .expect(200)
-        );
-
-        it("response should have property 'ingredients', which is a not empty array", async () => {
-            const resp = await request(SERVER).get("/api/ingredients");
-            
-            resp.body.should
-                .have.property("ingredients")
-                .that.is.an("array")
-                .that.is.not.empty;
-        });
-
-        it("all ingredients should have required properties", async () => {
-            const resp = await request(SERVER).get("/api/ingredients");
-
-            resp.body.ingredients
-                .every( item => 
-                    item.should.have.all.keys("id", "name", "description", "glass", "table"));
-        });
-    });
-
-    describe("Get cocktail", () => {
-        it("should return json with status 501", () =>
-            request(SERVER)
-                .get("/api/cocktail")
-                .expect("Content-Type", /json/)
-                .expect(501)
-        );
-    });
-
-    after("Shut down server", done => {
-        SERVER.close(done);
-    });
+    after("Shut down server", done => SERVER.close(done) );
 });
