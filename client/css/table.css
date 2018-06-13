@@ -31,6 +31,10 @@
     position: relative;
     display: inline-block;
     padding: 0;
+<<<<<<< HEAD
+=======
+    /* border: 1px solid darkblue; */
+>>>>>>> dev
 }
 
 #ingredients {
@@ -46,6 +50,7 @@
 
 #ingredients .row {
     margin-right: 0;
+<<<<<<< HEAD
     /* border: 0.05em solid red; */
 }
 
@@ -60,3 +65,36 @@
     margin: 0;
     padding: 0;
 }
+=======
+    border: 0.05em solid red;
+}
+
+#ingredients>div:last-child {
+    /* border: 3px solid green; */
+    position: absolute;
+    bottom: 0em;/*padding-right check on green*/
+    width: 100%;
+}
+
+#glass {
+    background: url(../img/svg/back.svg);
+    height: 100%;
+    position: absolute;
+    top: 0;
+    /* border: 1px solid purple; */
+}
+
+#glass .row {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* border: 3px solid greenyellow; */
+    margin: 0;
+    padding: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+>>>>>>> dev

@@ -34,6 +34,8 @@ Apart from that, you will be given an .env file, containing environment variable
 
 ```bash
 PORT = 3000
+
+REGION = "eu-west-2"
 AWS_ACCESS_KEY_ID = XXXX
 AWS_SECRET_ACCESS_KEY = YYYY
 ```
@@ -56,9 +58,6 @@ Examples:
 ```bash
 > npm run dev-server
 
-brewtal@version dev-server Disk:\path\to\the\project\Brewtal
-nodemon server.js
-
 [nodemon] 1.17.5
 [nodemon] to restart at any time, enter `rs`
 [nodemon] watching: *.*
@@ -69,15 +68,17 @@ App listening on port 3000!
 ```bash
 > npm run start
 
-brewtal@version start Disk:\path\to\the\project\Brewtal
-node server.js
-
 App listening on port 3000!
 ```
 
 ## Running the tests
 
-Tests are currently not implemented, but will be!
+Tests are powered by [Mocha](https://mochajs.org), [Chai](http://www.chaijs.com/), [Supertest](https://www.npmjs.com/package/supertest) and [Istanbul](https://istanbul.js.org/).\
+To run the test suite, run `npm test`:
+
+```bash
+> npm test
+```
 
 ## Deployment
 
@@ -95,7 +96,7 @@ Continious Delivery system, which handles the deployment, is triggered by push t
 
 - **Ladislava Klischenko** - *Project manager, manual QA* - [LadaKlischenko](https://github.com/LadaKlischenko)
 - **Igor Morenec** - *Team lead, back-end, DevOps* - [VernonHawk](https://github.com/VernonHawk)
-- **Anns Tsukanova** - *Front-end, designer* - [AnnabellFlem](https://github.com/AnnabellFlem)
+- **Anna Tsukanova** - *Front-end, designer* - [AnnabellFlem](https://github.com/AnnabellFlem)
 - **Denys Melnychenko** - *Front-end, designer* - [chelicerae](https://github.com/chelicerae)
 
 ## License

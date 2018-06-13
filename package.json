@@ -10,29 +10,37 @@
     "url": "https://github.com/VernonHawk/Brewtal/issues"
   },
   "license": "gpl-3.0",
-  "main": "server.js",
+  "main": "start.js",
   "engines": {
     "node": "10.2.1",
     "npm": "6.0.1"
   },
   "scripts": {
-    "dev-server": "nodemon server.js",
-    "start": "node server.js"
+    "dev-server": "nodemon start.js",
+    "start": "node start.js",
+    "test": "nyc mocha --recursive test --timeout 10000"
   },
   "nodemonConfig": {
     "ignore": [
-      "front-end/**"
+      "client/**",
+      "test/**"
     ]
   },
   "dependencies": {
     "aws-sdk": "^2.248.1",
-    "body-parser": "^1.18.3",
     "express": "^4.16.3",
     "helmet": "^3.12.1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-webdriver": "^1.2.0",
     "dotenv": "^5.0.1",
     "eslint": "^4.19.1",
-    "nodemon": "^1.17.5"
+    "jquery": "^3.3.1",
+    "jsdom": "^11.11.0",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
+    "nyc": "^12.0.2",
+    "supertest": "^3.1.0"
   }
 }
