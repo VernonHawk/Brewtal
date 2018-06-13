@@ -102,114 +102,6 @@ footer {
     transform: translate(2%,12%);
 }
 
-<<<<<<< HEAD
-.layer__4 {
-=======
-#glass {
-    background: url(../img/svg/back.svg);
-    background-repeat: no-repeat;
-    background-position: center top;
->>>>>>> dev
-    height: 100%;
-    transform: rotateX(-12deg);
-
-    background-image: url("../img/svg/ingredient-backgrounds/stone.svg");
-}
-
-.layer-wrapper__3 {
-    height: 16.5%;
-    -webkit-transform: translate(2%, 11.5%);
-    -ms-transform: translate(2%, 11.5%);
-    -o-transform: translate(2%, 11.5%);
-    transform: translate(2%, 11.5%);
-}
-
-<<<<<<< HEAD
-.layer__3 {
-    height: 100%;
-    transform: rotateX(-12deg);
-
-    background-image: url("../img/svg/ingredient-backgrounds/tomato.svg");
-}
-
-.layer-wrapper__2 {
-    height: 18%;
-    -webkit-transform: translate(2%, 8%);
-    -ms-transform: translate(2%, 8%);
-    -o-transform: translate(2%, 8%);
-    transform: translate(2%, 8%);
-}
-
-.layer__2 {
-    height: 100%;
-    transform: rotateX(-8deg);
-
-    background-image: url("../img/svg/ingredient-backgrounds/dirt.svg");
-}
-
-.layer-wrapper__1 {
-    height: 21%;
-    -webkit-transform: translate(2%, 5%);
-    -ms-transform: translate(2%, 5%);
-    -o-transform: translate(2%, 5%);
-    transform: translate(2%, 5%);
-}
-
-=======
-.glass-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.glass-wrapper .glass,
-.glass-wrapper .layers-wrapper {
-    width: 100%;
-    height: 70%;
-    position: absolute;
-    /*top: 0;*/
-    bottom: 5%;
-    left: 0;
-}
-
-.glass-wrapper .layers-wrapper {
-    z-index: 5;
-}
-
-.glass-wrapper .glass {
-    text-align: center;
-    z-index: 10;
-}
-
-.glass-wrapper .glass img {
-    height: 100%;
-}
-
-.layer {
-    perspective: 1000px;
-    width: 20%;
-    margin: auto;
-    -webkit-background-size: cover;
-    /*border: 1px black solid;*/
-}
-
-.layer-ingredient {
-    background-color: #4AFFF3;
-    background-size: cover;
-}
-
-.wrapper__top-fix {
-    height: 14%;
-}
-
-.layer-wrapper__4 {
-    height: 16%;
-    -webkit-transform: translate(2%,12%);
-    -ms-transform: translate(2%,12%);
-    -o-transform: translate(2%,12%);
-    transform: translate(2%,12%);
-}
-
 .layer__4 {
     height: 100%;
     transform: rotateX(-12deg);
@@ -255,7 +147,6 @@ footer {
     transform: translate(2%, 5%);
 }
 
->>>>>>> dev
 .layer__1 {
     height: 100%;
     transform: rotateX(-10deg);
