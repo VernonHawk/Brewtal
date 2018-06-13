@@ -48,115 +48,123 @@ footer {
     font-feature-settings: 'liga';
 }
 
-.clickable:not(.disable):hover {
-    -webkit-filter: drop-shadow(0.25em 0.25em 0.1em rgba(0, 0, 0, 0.5));
-    filter: drop-shadow(0.25em 0.25em 0.1em rgba(0, 0, 0, 0.5));
-}
-
-.clickable:not(.disable):active {
-    transform: translate(0.1em, 0.1em);
-    -webkit-transform: translate(0.1em, 0.1em);
-    -ms-transform: translate(0.1em, 0.1em);
-}
-
-.disable {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-}
-
-.hidden {
-    display: none;
-}
-
-.row a[class~='clickable']:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.row a[class~='clickable'] {
+.glass-wrapper {
+    width: 100%;
+    height: 100%;
     position: relative;
-    display: inline-block;
-    padding: 0;
-    /* border: 1px solid darkblue; */
 }
 
-#ingredients {
-    background-image: url(../img/svg/table.svg);
-    background-clip: content-box;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    padding-right: 0;
-}
-
-#ingredients .row {
-    margin-right: 0;
-    border: 0.05em solid red;
-}
-
-#ingredients>div:last-child {
-    /* border: 3px solid green; */
-    position: absolute;
-    bottom: 0em;/*padding-right check on green*/
+.glass-wrapper .glass,
+.glass-wrapper .layers-wrapper {
     width: 100%;
-}
-
-#glass {
-    background: url(../img/svg/back.svg);
-    height: 100%;
+    height: 70%;
     position: absolute;
-    top: 0;
-    /* border: 1px solid purple; */
-}
-
-#glass .row {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    /* border: 3px solid greenyellow; */
-    margin: 0;
-    padding: 0;
+    /*top: 0;*/
+    bottom: 5%;
     left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
 }
 
-/* footer {
-    z-index: 9999;
-} */
-
-/*
-.row>.col {
-    padding: 0;
-} */
-
-/* main {
-    border: 1px solid green;
-} */
-
-/* .container {
-    margin: 0px!important;
-    padding: 0px!important;
-    width: 100%!important;
-} */
-
-/* .container {
-    width: 100%;
-    max-width: initial;
+.glass-wrapper .layers-wrapper {
+    z-index: 5;
 }
 
-.container>.row {
-    margin: 0;
+.glass-wrapper .glass {
+    text-align: center;
+    z-index: 10;
 }
 
-.container>.row>.col {
-    padding: 0;
-} */
+.glass-wrapper .glass img {
+    height: 100%;
+}
+
+.layer {
+    perspective: 1000px;
+    width: 20%;
+    margin: auto;
+    -webkit-background-size: cover;
+    /*border: 1px black solid;*/
+}
+
+.layer-ingredient {
+    background-color: #4AFFF3;
+    background-size: cover;
+}
+
+.wrapper__top-fix {
+    height: 14%;
+}
+
+.layer-wrapper__4 {
+    height: 16%;
+    -webkit-transform: translate(2%,12%);
+    -ms-transform: translate(2%,12%);
+    -o-transform: translate(2%,12%);
+    transform: translate(2%,12%);
+}
+
+.layer__4 {
+    height: 100%;
+    transform: rotateX(-12deg);
+
+    background-image: url("../img/svg/ingredient-backgrounds/stone.svg");
+}
+
+.layer-wrapper__3 {
+    height: 16.5%;
+    -webkit-transform: translate(2%, 11.5%);
+    -ms-transform: translate(2%, 11.5%);
+    -o-transform: translate(2%, 11.5%);
+    transform: translate(2%, 11.5%);
+}
+
+.layer__3 {
+    height: 100%;
+    transform: rotateX(-12deg);
+
+    background-image: url("../img/svg/ingredient-backgrounds/tomato.svg");
+}
+
+.layer-wrapper__2 {
+    height: 18%;
+    -webkit-transform: translate(2%, 8%);
+    -ms-transform: translate(2%, 8%);
+    -o-transform: translate(2%, 8%);
+    transform: translate(2%, 8%);
+}
+
+.layer__2 {
+    height: 100%;
+    transform: rotateX(-8deg);
+
+    background-image: url("../img/svg/ingredient-backgrounds/dirt.svg");
+}
+
+.layer-wrapper__1 {
+    height: 21%;
+    -webkit-transform: translate(2%, 5%);
+    -ms-transform: translate(2%, 5%);
+    -o-transform: translate(2%, 5%);
+    transform: translate(2%, 5%);
+}
+
+.layer__1 {
+    height: 100%;
+    transform: rotateX(-10deg);
+    border-bottom-left-radius: 40% 20%;
+    border-bottom-right-radius: 40% 20%;
+
+    background-image: url("../img/svg/ingredient-backgrounds/orange.svg");
+}
+
+.layer-cross {
+    -webkit-transform: translate(-125%, -125%);
+    -ms-transform: translate(-125%, -125%);
+    -o-transform: translate(-125%, -125%);
+    transform: translate(-125%, -125%);
+    z-index: 200;
+    cursor: pointer;
+}
+
+.layer-cross:hover {
+    
+}
