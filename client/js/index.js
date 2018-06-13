@@ -67,14 +67,6 @@ const ingredientList = [{
     url: '../img/svg/stone.svg'
 }];
 
-// const isMaximized = () => {
-//     let isAtMaxWidth = screen.availWidth - window.innerWidth === 0;
-//     let screenPixelRatio = (window.outerWidth - 8) / window.innerWidth;
-//     let isAtDefaultZoom = screenPixelRatio > 0.92 && screenPixelRatio <= 1.10;
-
-//     return isAtMaxWidth && isAtDefaultZoom;
-// };
-
 const ingredientRowItem = (item, index, arr) => {
     let isEven = index % ingredients.itemPerRow == 0;
     let nextIndex = index + 1;
@@ -117,27 +109,14 @@ $(document).ready(() => {
     // $('.preloader').load('parts/preloader.html', function () {
     //     $(this).addClass('center-align');
     // });
-    $('#glass').append(`
-        <div class="row">
-            <div class="col offset-s1 s2"></div>
-            <div class="col s6">
-        <object type="image/svg+xml" data="img/svg/glass.svg">
-            <img src="img/svg/glass.svg" alt=""/>
-        </object>
-        </div>
-        <div class="col s2"></div>
-        <div class="col s1"></div>
-        </div>
-    `);
-    $("#glass object").css('border', '2px solid blue');
+    
     $("#glass object").droppable({
-        drop: function (event, ui) {
-            console.log(1);
-            $(this)
-                .addClass("ui-state-highlight")
-                .find("p")
-                .html("Dropped!");
-        }
+        // drop: function (event, ui) {
+        //     $(this)
+        //         .addClass("ui-state-highlight")
+        //         .find("p")
+        //         .html("Dropped!");
+        // }
     });
 
     ingredients = new Ingredients(2);
@@ -178,7 +157,8 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             console.log(item.id);
         })
         .draggable({
-            //                helper: 'clone',
+            helper: 'clone',
+            containment: [10, 10, 20, 20],
             // opacity: 0.35,
             // snap: true,
             revert: 'invalid'
