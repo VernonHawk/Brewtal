@@ -53,13 +53,27 @@
 #ingredients>div:last-child {
     /* border: 3px solid green; */
     position: absolute;
+    left: 0em;
+    right: 0em;
     bottom: 0em;
+    /* position: absolute;
+    bottom: 0em; */
     /* display: inline; */
     /* right: 0em; */
 }
+
 #pagebar {
+    /* border: 3px solid blue; */
     margin: 0;
     padding: 0;
+    /* border 3px solid green;
+    margin: 0;
+    padding: 0; */
+    /* bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+    height: 70%; */
     /* display: inline-block;
     position: relative;
     bottom: 0;
@@ -67,7 +81,6 @@
     left: 0;
     width: 100%; */
 }
-
 #glass {
     background: url(../img/svg/back.svg);
     height: 100%;

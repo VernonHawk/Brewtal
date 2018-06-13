@@ -111,6 +111,7 @@ $(document).ready(() => {
     $.getScript('js/materialize/materialize.min.js', () => {
         $('.sidenav').sidenav();
         $('.tooltipped').tooltip();
+        $('.modal').modal();
     });
 
     // $('.preloader').load('parts/preloader.html', function () {
@@ -168,21 +169,20 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
     }
     for (let i = Math.max(0, startPos), j = 0; i < items.length; i += ingredients.itemPerRow, j++) {
         await $(ingredientRowItem(items[i], i, items))
-            .hide()
-            .appendTo(container)
-            .fadeIn(1000)
-            .find('.clickable')
-            .click(e => {
-                let item = e.target;
-                console.log(item.id);
-            })
-            .draggable({
-                //                helper: 'clone',
-                // opacity: 0.35,
-                // snap: true,
-  
-                revert: 'invalid'
-            });
+        .hide()
+        .appendTo(container)
+        .fadeIn(1000)
+        .find('.clickable')
+        .click(e => {
+            let item = e.target;
+            console.log(item.id);
+        })
+        .draggable({
+            //                helper: 'clone',
+            // opacity: 0.35,
+            // snap: true,
+            revert: 'invalid'
+        }).promise();
         if (!j) {
             availableRowCount = getAvailableRowCount();
         }
