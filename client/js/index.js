@@ -135,18 +135,7 @@ $(document).ready(() => {
     };
     loadScripts()
         .then(() => {
-            $('#glass').append(`
-                <div class="row">
-                    <div class="col offset-s1 s2"></div>
-                    <div class="col s6">
-                <object type="image/svg+xml" data="img/svg/glass.svg">
-                    <img src="img/svg/glass.svg" alt=""/>
-                </object>
-                </div>
-                <div class="col s2"></div>
-                <div class="col s1"></div>
-                </div>
-            `);
+           // add glass?
             $('#glass') // object
                 .droppable({
                     // accept: '#ingredients .clickable',
