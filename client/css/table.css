@@ -31,7 +31,6 @@
     position: relative;
     display: inline-block;
     padding: 0;
-    /* border: 1px solid darkblue; */
 }
 
 #ingredients {
@@ -47,34 +46,17 @@
 
 #ingredients .row {
     margin-right: 0;
-    border: 0.05em solid red;
+    /* border: 0.05em solid red; */
 }
 
 #ingredients>div:last-child {
-    /* border: 3px solid green; */
     position: absolute;
-    bottom: 0em;/*padding-right check on green*/
-    width: 100%;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
 }
 
-#glass {
-    background: url(../img/svg/back.svg);
-    height: 100%;
-    position: absolute;
-    top: 0;
-    /* border: 1px solid purple; */
-}
-
-#glass .row {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    /* border: 3px solid greenyellow; */
+#pagebar {
     margin: 0;
     padding: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
 }
