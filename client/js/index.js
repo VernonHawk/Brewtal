@@ -121,7 +121,6 @@ const getIngredients = () => {
             console.log(data, status, xhr);
             ingredients = new Ingredients(2);
             loadIngredients(ingredientList);
-//            ingredientList.map(item => console.log(item.table));
         });
 };
 
@@ -204,13 +203,6 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             .appendTo(container)
             .fadeIn(800)
             .find('.clickable')
-            //            .click(e => {
-            //                let item = e.target;
-            //                console.log(item.id);
-            // $('.clickable').css('border', '1px solid red');
-            // console.log($('.clickable').height());
-            // console.log($('.clickable').outerHeight(true));
-            //            })
             .draggable({
                 helper: 'clone',
                 revert: 'invalid',
