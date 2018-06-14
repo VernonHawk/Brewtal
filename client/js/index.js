@@ -28,15 +28,22 @@ class Ingredients {
         this._currentItemCount -= this._itemPerRow;
     }
 }
+/*
+description:"tea"
+glass:"https://s3.eu-west-2.amazonaws.com/brewtal.glass/tea.svg"
+id:"tea"
+name:"Tea"
+table:"https://s3.eu-west-2.amazonaws.com/brewtal.table/tea.svg"
 
-const ingredientList = [{
+*/
+let ingredientList = [{
     name: 'Stone1',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/tomato.svg'
 }, {
     name: 'Stone2',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }, {
     name: 'Stone3',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
@@ -74,8 +81,8 @@ const ingredientRowItem = (item, index, arr) => {
     return `
         ${index == 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.name}" href="#" class="col s12 clickable">
-                <img src="${item.url}" alt=""/>
+            <a id="${item.id}" href="#" class="col s12 clickable">
+                <img src="${item.table}" alt=""/>
             </a>
         </div>
         <div class="col ${nextIndex == arr.length && isEven ? 's8' : 's3'}">
@@ -84,6 +91,7 @@ const ingredientRowItem = (item, index, arr) => {
         </div>
         ${nextIndex == arr.length || nextIndex % ingredients.itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
 };
+
 /*
                 <object type="image/svg+xml" data="${item.url}">
                     <img src="${item.url}" alt=""/>
@@ -101,13 +109,19 @@ const getChangesCount = () => {
 const getIngredients = () => {
     $.ajax({
             type: 'GET',
-            url: '/get/ingredietns',
+            url: '/api/ingredients',
             dataType: 'json',
-            cache: false,
+            cache: false
         })
         .always((data, status, xhr) => {
+            if (status === 'success') {
+                ingredientList = data.ingredients;
+            } else {
+            }
+            console.log(data, status, xhr);
             ingredients = new Ingredients(2);
             loadIngredients(ingredientList);
+//            ingredientList.map(item => console.log(item.table));
         });
 };
 
@@ -134,7 +148,7 @@ $(document).ready(() => {
                 <div class="col s1"></div>
                 </div>
             `);
-            $('#glass')// object
+            $('#glass') // object
                 .droppable({
                     // accept: '#ingredients .clickable',
                     // scope: 'ingredients',
@@ -147,7 +161,7 @@ $(document).ready(() => {
                         return true;
                     },
                     drop: (e, ui) => {
-                        $('#glass').append(ui.draggable.clone());// object
+                        $('#glass').append(ui.draggable.clone()); // object
                         console.log(12);
                         // $.ui.ddmanager.current.cancelHelperRemoval = true;
                         // alert("dropped");
@@ -190,13 +204,13 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             .appendTo(container)
             .fadeIn(800)
             .find('.clickable')
-//            .click(e => {
-//                let item = e.target;
-//                console.log(item.id);
-                // $('.clickable').css('border', '1px solid red');
-                // console.log($('.clickable').height());
-                // console.log($('.clickable').outerHeight(true));
-//            })
+            //            .click(e => {
+            //                let item = e.target;
+            //                console.log(item.id);
+            // $('.clickable').css('border', '1px solid red');
+            // console.log($('.clickable').height());
+            // console.log($('.clickable').outerHeight(true));
+            //            })
             .draggable({
                 helper: 'clone',
                 revert: 'invalid',
