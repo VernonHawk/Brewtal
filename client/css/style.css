@@ -81,6 +81,7 @@ footer {
     perspective: 1000px;
     width: 20%;
     margin: auto;
+    background-size: cover;
     -webkit-background-size: cover;
     /*border: 1px black solid;*/
 }
@@ -163,8 +164,4 @@ footer {
     transform: translate(-125%, -125%);
     z-index: 200;
     cursor: pointer;
-}
-
-.layer-cross:hover {
-    
 }

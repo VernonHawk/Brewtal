@@ -31,6 +31,7 @@
     position: relative;
     display: inline-block;
     padding: 0;
+    /* border: 1px solid darkblue; */
 }
 
 #ingredients {
@@ -55,8 +56,27 @@
     right: 0em;
     bottom: 0em;
 }
-
 #pagebar {
     margin: 0;
     padding: 0;
+}
+
+#glass {
+    background: url(../img/svg/back.svg);
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+#glass .row {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }

@@ -74,7 +74,7 @@ const ingredientRowItem = (item, index, arr) => {
     return `
         ${index == 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.name}" href="#" class="col s12 clickable draggable1">
+            <a id="${item.name}" href="#" class="col s12 clickable">
                 <img src="${item.url}" alt=""/>
             </a>
         </div>
@@ -90,7 +90,6 @@ const ingredientRowItem = (item, index, arr) => {
                 </object>
 
 */
-
 const getChangesCount = () => {
     let container = $('#ingredients > div:first-child');
     let rowHeight = container.find('.row:first-child').outerHeight(true);
@@ -99,28 +98,67 @@ const getChangesCount = () => {
     return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
 };
 
+const getIngredients = () => {
+    $.ajax({
+            type: 'GET',
+            url: '/get/ingredietns',
+            dataType: 'json',
+            cache: false,
+        })
+        .always((data, status, xhr) => {
+            ingredients = new Ingredients(2);
+            loadIngredients(ingredientList);
+        });
+};
+
 $(document).ready(() => {
-    $.getScript('js/materialize/materialize.min.js', () => {
-        $('.sidenav').sidenav();
-        $('.tooltipped').tooltip();
-        $('.modal').modal();
-    });
-
-    // $('.preloader').load('parts/preloader.html', function () {
-    //     $(this).addClass('center-align');
-    // });
-    
-    $("#glass object").droppable({
-        // drop: function (event, ui) {
-        //     $(this)
-        //         .addClass("ui-state-highlight")
-        //         .find("p")
-        //         .html("Dropped!");
-        // }
-    });
-
-    ingredients = new Ingredients(2);
-    loadIngredients(ingredientList);
+    const loadScripts = async () => {
+        await $.getScript('js/materialize/materialize.min.js', () => {
+            $('.sidenav').sidenav();
+            $('.tooltipped').tooltip();
+            $('.modal').modal();
+        });
+        await $.getScript('js/jquery/jquery-ui.min.js');
+    };
+    loadScripts()
+        .then(() => {
+            $('#glass').append(`
+                <div class="row">
+                    <div class="col offset-s1 s2"></div>
+                    <div class="col s6">
+                <object type="image/svg+xml" data="img/svg/glass.svg">
+                    <img src="img/svg/glass.svg" alt=""/>
+                </object>
+                </div>
+                <div class="col s2"></div>
+                <div class="col s1"></div>
+                </div>
+            `);
+            $('#glass')// object
+                .droppable({
+                    // accept: '#ingredients .clickable',
+                    // scope: 'ingredients',
+                    // tolerance: 'touch',
+                    accept: drag => {
+                        console.log(333);
+                        // var dropId = $(this).attr('data-id');
+                        // var dragId = $(drag).attr('data-id');
+                        // return dropId === dragId;
+                        return true;
+                    },
+                    drop: (e, ui) => {
+                        $('#glass').append(ui.draggable.clone());// object
+                        console.log(12);
+                        // $.ui.ddmanager.current.cancelHelperRemoval = true;
+                        // alert("dropped");
+                        // var $item = ui.draggable.clone();
+                        // $(ui.draggable).replaceWith();
+                        // console.log($item);
+                        // $(this).addClass('has-drop').html($item);                        
+                    }
+                });
+            getIngredients();
+        });
 });
 
 const updatePageButtons = container => {
@@ -148,21 +186,27 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
     }
     for (let i = Math.max(0, startPos), j = 0; i < items.length; i += ingredients.itemPerRow, j++) {
         await $(ingredientRowItem(items[i], i, items))
-        .hide()
-        .appendTo(container)
-        .fadeIn(1000)
-        .find('.clickable')
-        .click(e => {
-            let item = e.target;
-            console.log(item.id);
-        })
-        .draggable({
-            helper: 'clone',
-            containment: [10, 10, 20, 20],
-            // opacity: 0.35,
-            // snap: true,
-            revert: 'invalid'
-        }).promise();
+            .hide()
+            .appendTo(container)
+            .fadeIn(800)
+            .find('.clickable')
+//            .click(e => {
+//                let item = e.target;
+//                console.log(item.id);
+                // $('.clickable').css('border', '1px solid red');
+                // console.log($('.clickable').height());
+                // console.log($('.clickable').outerHeight(true));
+//            })
+            .draggable({
+                helper: 'clone',
+                revert: 'invalid',
+                revertDuration: 200,
+                drag: (e, ui) => {
+                    let size = $(e.target).outerWidth(true);
+
+                    $(ui.helper).width(size);
+                }
+            }).promise();
         if (!j) {
             availableRowCount = getAvailableRowCount();
         }
