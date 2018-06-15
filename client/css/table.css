@@ -1,0 +1,62 @@
+.clickable:not(.disable):hover {
+    -webkit-filter: drop-shadow(0.25em 0.25em 0.1em rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0.25em 0.25em 0.1em rgba(0, 0, 0, 0.5));
+}
+
+.clickable:not(.disable):active {
+    transform: translate(0.1em, 0.1em);
+    -webkit-transform: translate(0.1em, 0.1em);
+    -ms-transform: translate(0.1em, 0.1em);
+}
+
+.disable {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+}
+
+.hidden {
+    display: none;
+}
+
+.row a[class~='clickable']:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.row a[class~='clickable'] {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+}
+
+#ingredients {
+    background-image: url(../img/svg/table.svg);
+    background-clip: content-box;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding-right: 0;
+}
+
+#ingredients .row {
+    margin-right: 0;
+    /* border: 0.05em solid red; */
+}
+
+#ingredients>div:last-child {
+    position: absolute;
+    left: 0em;
+    right: 0em;
+    bottom: 0em;
+}
+
+#pagebar {
+    margin: 0;
+    padding: 0;
+}
