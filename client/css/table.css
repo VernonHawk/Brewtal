@@ -31,7 +31,6 @@
     position: relative;
     display: inline-block;
     padding: 0;
-    /* border: 1px solid darkblue; */
 }
 
 #ingredients {
@@ -47,7 +46,6 @@
 
 #ingredients .row {
     margin-right: 0;
-    /* border: 0.05em solid red; */
 }
 
 #ingredients>div:last-child {
@@ -56,7 +54,19 @@
     right: 0em;
     bottom: 0em;
 }
+
 #pagebar {
     margin: 0;
     padding: 0;
+}
+
+#glass {
+    background: url(../img/svg/back.svg);
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.glass-wrapper .glass {
+    pointer-events: none
 }

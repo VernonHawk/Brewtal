@@ -28,70 +28,87 @@ class Ingredients {
         this._currentItemCount -= this._itemPerRow;
     }
 }
-/*
-description:"tea"
-glass:"https://s3.eu-west-2.amazonaws.com/brewtal.glass/tea.svg"
-id:"tea"
-name:"Tea"
-table:"https://s3.eu-west-2.amazonaws.com/brewtal.table/tea.svg"
-
-*/
 let ingredientList = [{
+    id: 's0',
     name: 'Stone1',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    table: '../img/svg/tomato.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/stone.svg'
 }, {
+    id: 's1',
     name: 'Stone2',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    table: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
 }, {
+    id: 's2',
     name: 'Stone3',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/orange.svg'
 }, {
+    id: 's3',
     name: 'Stone4',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/tomato.svg'
 }, {
+    id: 's4',
     name: 'Stone5',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/stone.svg'
 }, {
+    id: 's5',
     name: 'Grass1',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
 }, {
+    id: 's6',
     name: 'Grass2',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }, {
+    id: 's7',
     name: 'Grass3',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }, {
+    id: 's8',
     name: 'Grass4',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }];
 
+const updatePageBar = container => {
+    const rowCount = container.find('.row').length;
+    const maxRowCount = Math.ceil(ingredientList.length / ingredients.itemPerRow);
+    const firstIndex = container.find('.row:first > .tooltipped:first').data('index');
+    const lastIndex = container.find('.row:last > .tooltipped:last').data('index');
+
+    $('#pagebar .clickable:first').toggleClass('disable', firstIndex === 0);
+    $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
+    $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
+};
+
 const ingredientRowItem = (item, index, arr) => {
-    let isEven = index % ingredients.itemPerRow == 0;
-    let nextIndex = index + 1;
+    const isEven = index % ingredients.itemPerRow === 0;
+    const nextIndex = index + 1;
 
     return `
-        ${index == 0 || isEven ? '<div class="row valign-wrapper">' : ''}
+        ${index === 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.id}" href="#" class="col s12 clickable">
+            <a id="${item.id}" href="#" class="col s12 clickable" data-glass="${item.glass}">
                 <img src="${item.table}" alt=""/>
             </a>
         </div>
-        <div class="col ${nextIndex == arr.length && isEven ? 's8' : 's3'}">
+        <div class="col ${nextIndex === arr.length && isEven ? 's8' : 's3'}">
             <h5>${item.name}</h5>
             <p class="truncate">${item.description}</p>
         </div>
-        ${nextIndex == arr.length || nextIndex % ingredients.itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
+        ${nextIndex === arr.length || nextIndex % ingredients.itemPerRow === 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
 };
-
 /*
                 <object type="image/svg+xml" data="${item.url}">
                     <img src="${item.url}" alt=""/>
@@ -99,11 +116,62 @@ const ingredientRowItem = (item, index, arr) => {
 
 */
 const getChangesCount = () => {
-    let container = $('#ingredients > div:first-child');
-    let rowHeight = container.find('.row:first-child').outerHeight(true);
-    let parentHeight = $('#ingredients').height();
+    const container = $('#ingredients > div:first-child');
+    const rowHeight = container.find('.row:first-child').outerHeight(true);
+    const parentHeight = $('#ingredients').height();
 
     return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
+};
+
+const getAvailableRowCount = container => Math.floor($('#ingredients').height() /
+    container.find('.row:first-child').outerHeight(true)) - 1;
+
+const loadIngredients = async (items, startPos = 0, emptied = true) => {
+    const container = $('#ingredients > div:first-child');
+
+    if (emptied) {
+        container.empty();
+    }
+    for (let i = Math.max(0, startPos), j = 0; i < items.length; i += ingredients.itemPerRow, j++) {
+        await $(ingredientRowItem(items[i], i, items))
+            .hide()
+            .appendTo(container)
+            .fadeIn(800)
+            .find('.clickable')
+            .draggable({
+                helper: 'clone',
+                revert: 'invalid',
+                revertDuration: 200,
+                drag: (e, ui) => $(ui.helper).width($(e.target).outerWidth(true))
+            }).promise();
+        if (!j) {
+            availableRowCount = getAvailableRowCount(container);
+        }
+        if (j + 1 + (emptied ? 0 : ingredients.currentRowCount) === availableRowCount) {
+            ingredients.currentItemCount = availableRowCount * ingredients.itemPerRow;
+            break;
+        }
+    }
+    if ($('#pagebar').length) {
+        updatePageBar(container);
+    } else {
+        $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
+            $('#pagebar .clickable').click(e => {
+                const item = $(e.target);
+
+                if (!item.hasClass('disable')) {
+                    const direction = item.data('direction');
+                    const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
+
+                    loadIngredients(ingredientList, direction === -1 ?
+                        (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
+                        container.find('.tooltipped:last').data('index') + 1);
+                }
+            });
+            updatePageBar(container);
+        }));
+    }
+    //--all browsers!
 };
 
 const getIngredients = () => {
@@ -113,12 +181,10 @@ const getIngredients = () => {
             dataType: 'json',
             cache: false
         })
-        .always((data, status, xhr) => {
+        .always((data, status) => {
             if (status === 'success') {
                 ingredientList = data.ingredients;
-            } else {
             }
-            console.log(data, status, xhr);
             ingredients = new Ingredients(2);
             loadIngredients(ingredientList);
         });
@@ -135,116 +201,41 @@ $(document).ready(() => {
     };
     loadScripts()
         .then(() => {
-           // add glass?
-            $('#glass') // object
+            // $('#glass .layer').css('border', '2px solid green');
+            $('#glass .layer')
                 .droppable({
-                    // accept: '#ingredients .clickable',
-                    // scope: 'ingredients',
-                    // tolerance: 'touch',
-                    accept: drag => {
-                        console.log(333);
-                        // var dropId = $(this).attr('data-id');
-                        // var dragId = $(drag).attr('data-id');
-                        // return dropId === dragId;
-                        return true;
-                    },
+                    tolerance: 'pointer',
+                    accept: drag => $(drag).hasClass('clickable'),
                     drop: (e, ui) => {
-                        $('#glass').append(ui.draggable.clone()); // object
-                        console.log(12);
-                        // $.ui.ddmanager.current.cancelHelperRemoval = true;
-                        // alert("dropped");
-                        // var $item = ui.draggable.clone();
-                        // $(ui.draggable).replaceWith();
-                        // console.log($item);
-                        // $(this).addClass('has-drop').html($item);                        
+                        const glass = $(ui.draggable).data('glass');
+
+                        if (glass) {
+                            $(e.target)
+                                .find('div')
+                                .css('background-image', `url("${glass}")`);
+                        }
                     }
                 });
             getIngredients();
         });
+    $('.layer-cross').click(e => {
+        $(e.target).prev().css('background-image', '');
+    });
 });
-
-const updatePageButtons = container => {
-    let firstIndex = container.find('.row:first > .tooltipped:first').data('index');
-    let lastIndex = container.find('.row:last > .tooltipped:last').data('index');
-
-    $('#pagebar .clickable:first').toggleClass('disable', firstIndex == 0);
-    $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
-};
-
-const loadIngredients = async (items, startPos = 0, emptied = true) => {
-    let container = $('#ingredients > div:first-child');
-
-    const getAvailableRowCount = () => Math.floor($('#ingredients').height() /
-        container.find('.row:first-child').outerHeight(true)) - 1;
-    const updatePageBar = () => {
-        let rowCount = container.find('.row').length;
-        let maxRowCount = Math.ceil(ingredientList.length / ingredients.itemPerRow);
-
-        $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
-    };
-
-    if (emptied) {
-        container.empty();
-    }
-    for (let i = Math.max(0, startPos), j = 0; i < items.length; i += ingredients.itemPerRow, j++) {
-        await $(ingredientRowItem(items[i], i, items))
-            .hide()
-            .appendTo(container)
-            .fadeIn(800)
-            .find('.clickable')
-            .draggable({
-                helper: 'clone',
-                revert: 'invalid',
-                revertDuration: 200,
-                drag: (e, ui) => {
-                    let size = $(e.target).outerWidth(true);
-
-                    $(ui.helper).width(size);
-                }
-            }).promise();
-        if (!j) {
-            availableRowCount = getAvailableRowCount();
-        }
-        if (j + 1 + (emptied ? 0 : ingredients.currentRowCount) == availableRowCount) {
-            ingredients.currentItemCount = availableRowCount * ingredients.itemPerRow;
-            break;
-        }
-    }
-    if ($('#pagebar').length) {
-        updatePageButtons(container);
-    } else {
-        $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
-            $('#pagebar .clickable').click(e => {
-                let item = $(e.target);
-
-                if (!item.hasClass('disable')) {
-                    let direction = item.data('direction');
-                    let itemCount = getAvailableRowCount() * ingredients.itemPerRow;
-
-                    loadIngredients(ingredientList, direction == -1 ?
-                        (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
-                        container.find('.tooltipped:last').data('index') + 1);
-                }
-            });
-            updatePageButtons(container);
-        }));
-    }
-    updatePageBar(); //--all browsers!
-};
 
 $(window).resize(() => {
     let changesCount = getChangesCount();
 
     if (changesCount) {
-        let container = $('#ingredients > div:first-child');
+        const container = $('#ingredients > div:first-child');
 
         if (changesCount < 0) {
             while (changesCount) {
                 container.find('.row:last-child').remove();
-                updatePageButtons(container);
                 ingredients.decRow();
                 changesCount++;
             }
+            updatePageBar(container);
         } else {
             loadIngredients(ingredientList,
                 container.find('.row:first > .tooltipped:first').data('index') +
