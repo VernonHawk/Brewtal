@@ -239,12 +239,36 @@ footer {
 }
 
 .layer-cross {
-    -webkit-transform: translate(-125%, -125%);
-    -ms-transform: translate(-125%, -125%);
-    -o-transform: translate(-125%, -125%);
-    transform: translate(-125%, -125%);
     z-index: 200;
     cursor: pointer;
+}
+
+.layer-wrapper__4 .layer-cross {
+    -webkit-transform: translate(-170%, -125%);
+    -ms-transform: translate(-170%, -125%);
+    -o-transform: translate(-170%, -125%);
+    transform: translate(-170%, -125%);
+}
+
+.layer-wrapper__3 .layer-cross {
+    -webkit-transform: translate(-177.5%, -125%);
+    -ms-transform: translate(-177.5%, -125%);
+    -o-transform: translate(-177.5%, -125%);
+    transform: translate(-177.5%, -125%);
+}
+
+.layer-wrapper__2 .layer-cross {
+    -webkit-transform: translate(-181%, -125%);
+    -ms-transform: translate(-181%, -125%);
+    -o-transform: translate(-181%, -125%);
+    transform: translate(-181%, -125%);
+}
+
+.layer-wrapper__1 .layer-cross {
+    -webkit-transform: translate(-186%, -125%);
+    -ms-transform: translate(-186%, -125%);
+    -o-transform: translate(-186%, -125%);
+    transform: translate(-186%, -125%);
 }
 
 .layer-cross:hover {
@@ -257,6 +281,7 @@ footer {
     width: 100%;
     font-size: 0;
     text-align: center;
+    padding-right: 10px;
 }
 
 .glass-btns a+a {
