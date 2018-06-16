@@ -63,15 +63,7 @@ describe.only("Get cocktail", () => {
     });
 
     describe("Get images requests", () => {
-        it("should return array of promises of length n + 1 with n ingredients", () => {
-            const ingredients = [ "orange", "stone", "rotten-eggs" ];
-
-            const requests = getImages(ingredients);
-
-            requests.should.be.a("promise");
-        });
-
-        it("promises should resolve to image objects", async () => {
+        it("should resolve to image objects", async () => {
             const ingredients = [ "beer", "spoiled-milk", "grass" ];
 
             const requests = await getImages(ingredients);
@@ -84,26 +76,27 @@ describe.only("Get cocktail", () => {
             requests.map( req => req.ContentType.should.equal("image/svg+xml") );
         });
 
+        // TODO: Add exception case
     });
 
     describe("Get shaped images", () => {
-
+        // TODO:
     });
 
     describe("Get image shape", () => {
-
+        // TODO:
     });
 
     describe("Shape image", () => {
-
+        // TODO:
     });
 
     describe("Compose images", () => {
-
+        // TODO:
     });
 
     describe("Data to base64", () => {
-
+        // TODO:
     });
 
     describe("Response", () => {
