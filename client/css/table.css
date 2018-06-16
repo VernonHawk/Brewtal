@@ -46,7 +46,6 @@
 
 #ingredients .row {
     margin-right: 0;
-    /* border: 0.05em solid red; */
 }
 
 #ingredients>div:last-child {
@@ -59,4 +58,15 @@
 #pagebar {
     margin: 0;
     padding: 0;
+}
+
+#glass {
+    background: url(../img/svg/back.svg);
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.glass-wrapper .glass {
+    pointer-events: none
 }

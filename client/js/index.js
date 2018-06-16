@@ -28,61 +28,86 @@ class Ingredients {
         this._currentItemCount -= this._itemPerRow;
     }
 }
-
-const ingredientList = [{
+let ingredientList = [{
+    id: 's0',
     name: 'Stone1',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/stone.svg'
 }, {
+    id: 's1',
     name: 'Stone2',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
 }, {
+    id: 's2',
     name: 'Stone3',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/orange.svg'
 }, {
+    id: 's3',
     name: 'Stone4',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/tomato.svg'
 }, {
+    id: 's4',
     name: 'Stone5',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/stone.svg'
 }, {
+    id: 's5',
     name: 'Grass1',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
 }, {
+    id: 's6',
     name: 'Grass2',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }, {
+    id: 's7',
     name: 'Grass3',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }, {
+    id: 's8',
     name: 'Grass4',
     description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    url: '../img/svg/stone.svg'
+    table: '../img/svg/stone.svg'
 }];
 
+const updatePageBar = container => {
+    const rowCount = container.find('.row').length;
+    const maxRowCount = Math.ceil(ingredientList.length / ingredients.itemPerRow);
+    const firstIndex = container.find('.row:first > .tooltipped:first').data('index');
+    const lastIndex = container.find('.row:last > .tooltipped:last').data('index');
+
+    $('#pagebar .clickable:first').toggleClass('disable', firstIndex === 0);
+    $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
+    $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
+};
+
 const ingredientRowItem = (item, index, arr) => {
-    let isEven = index % ingredients.itemPerRow == 0;
-    let nextIndex = index + 1;
+    const isEven = index % ingredients.itemPerRow === 0;
+    const nextIndex = index + 1;
 
     return `
-        ${index == 0 || isEven ? '<div class="row valign-wrapper">' : ''}
+        ${index === 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.name}" href="#" class="col s12 clickable draggable1">
-                <img src="${item.url}" alt=""/>
+            <a id="${item.id}" href="#" class="col s12 clickable" data-glass="${item.glass}">
+                <img src="${item.table}" alt=""/>
             </a>
         </div>
-        <div class="col ${nextIndex == arr.length && isEven ? 's8' : 's3'}">
+        <div class="col ${nextIndex === arr.length && isEven ? 's8' : 's3'}">
             <h5>${item.name}</h5>
             <p class="truncate">${item.description}</p>
         </div>
-        ${nextIndex == arr.length || nextIndex % ingredients.itemPerRow == 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
+        ${nextIndex === arr.length || nextIndex % ingredients.itemPerRow === 0 ? `</div>` : `${ingredientRowItem(arr[nextIndex], nextIndex, arr)}`}`;
 };
 /*
                 <object type="image/svg+xml" data="${item.url}">
@@ -90,122 +115,127 @@ const ingredientRowItem = (item, index, arr) => {
                 </object>
 
 */
-
 const getChangesCount = () => {
-    let container = $('#ingredients > div:first-child');
-    let rowHeight = container.find('.row:first-child').outerHeight(true);
-    let parentHeight = $('#ingredients').height();
+    const container = $('#ingredients > div:first-child');
+    const rowHeight = container.find('.row:first-child').outerHeight(true);
+    const parentHeight = $('#ingredients').height();
 
     return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
 };
 
-$(document).ready(() => {
-    $.getScript('js/materialize/materialize.min.js', () => {
-        $('.sidenav').sidenav();
-        $('.tooltipped').tooltip();
-        $('.modal').modal();
-    });
-
-    // $('.preloader').load('parts/preloader.html', function () {
-    //     $(this).addClass('center-align');
-    // });
-    
-    $("#glass object").droppable({
-        // drop: function (event, ui) {
-        //     $(this)
-        //         .addClass("ui-state-highlight")
-        //         .find("p")
-        //         .html("Dropped!");
-        // }
-    });
-
-    ingredients = new Ingredients(2);
-    loadIngredients(ingredientList);
-});
-
-const updatePageButtons = container => {
-    let firstIndex = container.find('.row:first > .tooltipped:first').data('index');
-    let lastIndex = container.find('.row:last > .tooltipped:last').data('index');
-
-    $('#pagebar .clickable:first').toggleClass('disable', firstIndex == 0);
-    $('#pagebar .clickable:last').toggleClass('disable', lastIndex + 1 >= ingredientList.length);
-};
+const getAvailableRowCount = container => Math.floor($('#ingredients').height() /
+    container.find('.row:first-child').outerHeight(true)) - 1;
 
 const loadIngredients = async (items, startPos = 0, emptied = true) => {
-    let container = $('#ingredients > div:first-child');
-
-    const getAvailableRowCount = () => Math.floor($('#ingredients').height() /
-        container.find('.row:first-child').outerHeight(true)) - 1;
-    const updatePageBar = () => {
-        let rowCount = container.find('.row').length;
-        let maxRowCount = Math.ceil(ingredientList.length / ingredients.itemPerRow);
-
-        $('#ingredients > div:last-child').toggleClass('hidden', rowCount >= maxRowCount);
-    };
+    const container = $('#ingredients > div:first-child');
 
     if (emptied) {
         container.empty();
     }
     for (let i = Math.max(0, startPos), j = 0; i < items.length; i += ingredients.itemPerRow, j++) {
         await $(ingredientRowItem(items[i], i, items))
-        .hide()
-        .appendTo(container)
-        .fadeIn(1000)
-        .find('.clickable')
-        .click(e => {
-            let item = e.target;
-            console.log(item.id);
-        })
-        .draggable({
-            helper: 'clone',
-            containment: [10, 10, 20, 20],
-            // opacity: 0.35,
-            // snap: true,
-            revert: 'invalid'
-        }).promise();
+            .hide()
+            .appendTo(container)
+            .fadeIn(800)
+            .find('.clickable')
+            .draggable({
+                helper: 'clone',
+                revert: 'invalid',
+                revertDuration: 200,
+                drag: (e, ui) => $(ui.helper).width($(e.target).outerWidth(true))
+            }).promise();
         if (!j) {
-            availableRowCount = getAvailableRowCount();
+            availableRowCount = getAvailableRowCount(container);
         }
-        if (j + 1 + (emptied ? 0 : ingredients.currentRowCount) == availableRowCount) {
+        if (j + 1 + (emptied ? 0 : ingredients.currentRowCount) === availableRowCount) {
             ingredients.currentItemCount = availableRowCount * ingredients.itemPerRow;
             break;
         }
     }
     if ($('#pagebar').length) {
-        updatePageButtons(container);
+        updatePageBar(container);
     } else {
         $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
             $('#pagebar .clickable').click(e => {
-                let item = $(e.target);
+                const item = $(e.target);
 
                 if (!item.hasClass('disable')) {
-                    let direction = item.data('direction');
-                    let itemCount = getAvailableRowCount() * ingredients.itemPerRow;
+                    const direction = item.data('direction');
+                    const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
 
-                    loadIngredients(ingredientList, direction == -1 ?
+                    loadIngredients(ingredientList, direction === -1 ?
                         (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
                         container.find('.tooltipped:last').data('index') + 1);
                 }
             });
-            updatePageButtons(container);
+            updatePageBar(container);
         }));
     }
-    updatePageBar(); //--all browsers!
+    //--all browsers!
 };
+
+const getIngredients = () => {
+    $.ajax({
+            type: 'GET',
+            url: '/api/ingredients',
+            dataType: 'json',
+            cache: false
+        })
+        .always((data, status) => {
+            if (status === 'success') {
+                ingredientList = data.ingredients;
+            }
+            ingredients = new Ingredients(2);
+            loadIngredients(ingredientList);
+        });
+};
+
+$(document).ready(() => {
+    const loadScripts = async () => {
+        await $.getScript('js/materialize/materialize.min.js', () => {
+            $('.sidenav').sidenav();
+            $('.tooltipped').tooltip();
+            $('.modal').modal();
+        });
+        await $.getScript('js/jquery/jquery-ui.min.js');
+    };
+    loadScripts()
+        .then(() => {
+            // $('#glass .layer').css('border', '2px solid green');
+            $('#glass .layer')
+                .droppable({
+                    tolerance: 'pointer',
+                    accept: drag => $(drag).hasClass('clickable'),
+                    drop: (e, ui) => {
+                        const glass = $(ui.draggable).data('glass');
+
+                        if (glass) {
+                            $(e.target)
+                                .find('div')
+                                .css('background-image', `url("${glass}")`);
+                        }
+                    }
+                });
+            getIngredients();
+        });
+    $('.layer-cross').click(e => {
+        $(e.target).prev().css('background-image', '');
+    });
+});
 
 $(window).resize(() => {
     let changesCount = getChangesCount();
 
     if (changesCount) {
-        let container = $('#ingredients > div:first-child');
+        const container = $('#ingredients > div:first-child');
 
         if (changesCount < 0) {
             while (changesCount) {
                 container.find('.row:last-child').remove();
-                updatePageButtons(container);
                 ingredients.decRow();
                 changesCount++;
             }
+            updatePageBar(container);
         } else {
             loadIngredients(ingredientList,
                 container.find('.row:first > .tooltipped:first').data('index') +
