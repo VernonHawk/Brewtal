@@ -102,6 +102,7 @@ footer {
     -ms-transform: translate(2%, 12%);
     -o-transform: translate(2%, 12%);
     transform: translate(2%, 12%);
+    border-bottom: 3px #343434 dashed;
 }
 
 .layer__4 {
@@ -112,10 +113,11 @@ footer {
 
 .layer-wrapper__3 {
     height: 16.5%;
-    -webkit-transform: translate(2%, 11.5%);
-    -ms-transform: translate(2%, 11.5%);
-    -o-transform: translate(2%, 11.5%);
-    transform: translate(2%, 11.5%);
+    -webkit-transform: translate(2%, 13%);
+    -ms-transform: translate(2%, 13%);
+    -o-transform: translate(2%, 13%);
+    transform: translate(2%, 13%);
+    border-bottom: 3px #343434 dashed;
 }
 
 .layer__3 {
@@ -126,15 +128,16 @@ footer {
 
 .layer-wrapper__2 {
     height: 18%;
-    -webkit-transform: translate(2%, 8%);
-    -ms-transform: translate(2%, 8%);
-    -o-transform: translate(2%, 8%);
-    transform: translate(2%, 8%);
+    -webkit-transform: translate(3%, 11%);
+    -ms-transform: translate(3%, 11%);
+    -o-transform: translate(3%, 11%);
+    transform: translate(3%, 11%);
+    border-bottom: 3px #343434 dashed;
 }
 
 .layer__2 {
     height: 100%;
-    transform: rotateX(-8deg);
+    transform: rotateX(-13deg);
     /* background-image: url("../img/svg/ingredient-backgrounds/dirt.svg"); */
 }
 

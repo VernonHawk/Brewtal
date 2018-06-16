@@ -8,3 +8,7 @@ $(window).on('resize load', function () {
     const h = $('.glass').height();
     $('.layer-cross').css('height', h * 0.1);
 });
+
+$(".clear-button").click(function() {
+		$('.layer-ingredient').css('background-image', '');
+});
