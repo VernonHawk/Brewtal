@@ -102,6 +102,7 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
                 helper: 'clone',
                 revert: 'invalid',
                 revertDuration: 200,
+                zIndex: 100,
                 drag: (e, ui) => $(ui.helper).width($(e.target).outerWidth(true))
             }).promise();
 
@@ -169,18 +170,21 @@ $(document).ready(() => {
 
     loadScripts()
         .then(() => {
-            // $('#glass .layer').css('border', '2px solid green');
             $('#glass .layer')
                 .droppable({
                     tolerance: 'pointer',
                     accept: drag => $(drag).hasClass('clickable'),
                     drop: (e, ui) => {
                         const glass = $(ui.draggable).data('glass');
+                        const item = $(e.target);
 
                         if (glass) {
-                            $(e.target)
-                                .find('div')
+                            $(item)
+                                .find('.layer-ingredient')
                                 .css('background-image', `url("${glass}")`);
+                            $(item)
+                                .find('.layer-cross')
+                                .removeClass('hidden');
                         }
                     }
                 });
@@ -189,7 +193,10 @@ $(document).ready(() => {
         });
 
     $('.layer-cross').click(e => {
-        $(e.target).prev().css('background-image', '');
+        const item = $(e.target);
+        $(item).prev().css('background-image', '');
+        $(item).addClass('hidden');
+
     });
 });
 
