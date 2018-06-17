@@ -10,7 +10,7 @@ const {
     composeImages, dataToBase64
 } = require("../../server/controllers/cocktailController");
 
-describe.only("Get cocktail", () => {
+describe("Get cocktail", () => {
     let SERVER = {};
 
     before("Start server", () => {
