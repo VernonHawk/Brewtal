@@ -3,10 +3,41 @@
     filter: drop-shadow(0.25em 0.25em 0.1em rgba(0, 0, 0, 0.5));
 }
 
-.clickable:not(.disable):active {
+.clickable:not(.disable):not(.layer-cross):active {
     transform: translate(0.1em, 0.1em);
     -webkit-transform: translate(0.1em, 0.1em);
     -ms-transform: translate(0.1em, 0.1em);
+}
+.layer-wrapper__4 .clickable:not(.disable):active {
+    transform: translate(-165%, -120%);
+    -webkit-transform: translate(-165%, -120%);
+    -ms-transform: translate(-165%, -120%);
+    -o-transform: translate(-165%, -120%);
+}
+
+.layer-wrapper__3 .clickable:not(.disable):active {
+    transform: translate(-172.5%, -120%);
+    -webkit-transform: translate(-172.5%, -120%);
+    -ms-transform: translate(-172.5%, -120%);
+    -o-transform: translate(-172.5%, -120%);
+}
+
+.layer-wrapper__2 .clickable:not(.disable):active {
+    transform: translate(-176%, -120%);
+    -webkit-transform: translate(-176%, -120%);
+    -ms-transform: translate(-176%, -120%);
+    -o-transform: translate(-176%, -120%);
+}
+
+.layer-wrapper__1 .clickable:not(.disable):active {
+    -webkit-transform: translate(-181%, -120%);
+    -ms-transform: translate(-181%, -120%);
+    -o-transform: translate(-181%, -120%);
+    transform: translate(-181%, -120%);
+}
+
+.clickable:not(.disable):focus {
+    outline: none;  
 }
 
 .disable {
@@ -48,11 +79,15 @@
     margin-right: 0;
 }
 
+#ingredients>div:first-child .row:first-child {
+    margin-top: 0.5em;
+}
+
 #ingredients>div:last-child {
     position: absolute;
     left: 0em;
     right: 0em;
-    bottom: 0em;
+    bottom: 0.5em;
 }
 
 #pagebar {
@@ -70,3 +105,20 @@
 .glass-wrapper .glass {
     pointer-events: none
 }
+
+#glass .layer:not(.layer-wrapper__4) .layer-ingredient {
+    border-top: 0.15em dashed gray;
+}
+
+.glass-btns a {
+    width: 6.5em;
+    /* padding: 10px;
+    border: 1px solid red;
+    position: fixed; */
+}
+
+/* .material-icons {
+    border: 1px solid red;
+    margin-right: 10px;
+    : 10px;
+} */
