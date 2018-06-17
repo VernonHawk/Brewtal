@@ -1,41 +1,24 @@
 "use strict";
 
 require("chai").should();
-let client = {};
-const {
-    JSDOM
-} = require("jsdom");
+const { JSDOM } = require("jsdom");
 const jsdom = new JSDOM();
-const {
-    window
-} = jsdom;
-const {
-    document
-} = window;
-global.$ = require("jquery")(window);
-global.window = window;
-global.document = document;
-const options = {
-    contentType: 'text/html'
-}
-let root = {};
+const $ = require("jquery")(jsdom.window);
+
+let doc = {};
 
 describe("Our client", () => {
-    before("Connect client", () => {
-        client = require("../../client/js/index.js");
-    });
-
     describe("Page loading correctly...", () => {
-        beforeEach(() => {
-            return JSDOM.fromFile("client/index.html", options)
-                .then((dom) => {
-                    root = dom.window.document;
-                });
+        beforeEach( async () => {
+            const dom = await JSDOM.fromFile("client/index.html");
+            
+            doc = dom.window.document;
         });
-        it("should have ingredients container", function (done) {
-            let el = $(root).find('#ingredients');
-            el.length.should.to.equal(1);
-            done();
+
+        it("should have ingredients container", () => {
+            const el = $(doc).find("#ingredients");
+
+            el.length.should.equal(1);
         });
     });
 });
