@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <title>Brewtal</title>
     <meta charset="utf-8">
@@ -13,6 +14,9 @@
 </head>
 
 <body>
+    <header>
+    </header>
+
     <main class="amber lighten-2">
         <div class="row">
             <div id="glass" class="col s6">
@@ -44,7 +48,7 @@
                     <a class="waves-effect waves-light btn red clickable">Clear
                         <!-- <i class="material-icons right">layers_clear</i> -->
                     </a>
-                    <a class="waves-effect waves-light btn green clickable modal-trigger" href="#modal1">Save
+                    <a class="waves-effect waves-light btn green clickable modal-trigger" href="#save-modal">Save
                         <!-- <i class="material-icons right1">get_app</i> -->
                     </a>
                 </div>
@@ -60,18 +64,29 @@
     </main>
 
     <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+    <div id="save-modal" class="modal bottom-sheet amber">
+        <a class="modal-close btn1 btn-flat btn-floating1 waves-effect waves-light amber right">
+            <i class="material-icons">close</i></a>
+      <div class="modal-content">
+          <h4>MMMM</h4>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        <div class="modal-footer amber">
+              <!-- <a href="#!" class="modal-close waves-effect waves-green btn-flat">
+            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable">
+          </a> -->
         </div>
-    </div>
+      </div>    
 
+    <footer>
+    </footer>
+    <script language="javascript" type="text/javascript">
+        // $(window).load(function () {
+            // $('#loading').hide();
+        // });
+    </script>
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/index.js"></script>
     <script src="js/glass.js"></script>
 </body>
+
 </html>

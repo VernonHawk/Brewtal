@@ -157,6 +157,11 @@ const getIngredients = () => {
         });
 };
 
+const clearLayers = item => {
+    $(item).prev().css('background-image', '');
+    $(item).addClass('hidden');
+};
+
 $(document).ready(() => {
     const loadScripts = async () => {
         await $.getScript('js/materialize/materialize.min.js', () => {
@@ -193,10 +198,10 @@ $(document).ready(() => {
         });
 
     $('.layer-cross').click(e => {
-        const item = $(e.target);
-        $(item).prev().css('background-image', '');
-        $(item).addClass('hidden');
-
+        clearLayers($(e.target));
+    });
+    $('.glass-btns > a:first-child').click(() => {
+        clearLayers($('.layer-cross'));
     });
 });
 
