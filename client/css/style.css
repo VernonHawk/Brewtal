@@ -107,7 +107,6 @@ footer {
 .layer__4 {
     height: 100%;
     transform: rotateX(-12deg);
-    /* background-image: url("../img/svg/ingredient-backgrounds/stone.svg"); */
 }
 
 .layer-wrapper__3 {
@@ -121,7 +120,6 @@ footer {
 .layer__3 {
     height: 100%;
     transform: rotateX(-12deg);
-    /* background-image: url("../img/svg/ingredient-backgrounds/tomato.svg"); */
 }
 
 .layer-wrapper__2 {
@@ -135,7 +133,6 @@ footer {
 .layer__2 {
     height: 100%;
     transform: rotateX(-8deg);
-    /* background-image: url("../img/svg/ingredient-backgrounds/dirt.svg"); */
 }
 
 .layer-wrapper__1 {
@@ -151,7 +148,6 @@ footer {
     transform: rotateX(-10deg);
     border-bottom-left-radius: 40% 20%;
     border-bottom-right-radius: 40% 20%;
-    /* background-image: url("../img/svg/ingredient-backgrounds/orange.svg"); */
 }
 
 .layer-cross {
