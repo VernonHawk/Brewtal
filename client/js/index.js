@@ -157,10 +157,7 @@ const getIngredients = () => {
         });
 };
 
-const clearLayers = item => {
-    $(item).prev().css('background-image', '');
-    $(item).addClass('hidden');
-};
+const clearLayers = item => $(item).addClass('hidden').prev().css('background-image', '');
 
 $(document).ready(() => {
     const loadScripts = async () => {
