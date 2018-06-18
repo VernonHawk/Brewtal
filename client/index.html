@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Brewtal</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/materialize/materialize.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/table.css">
+</head>
+
+<body>
+    <main class="amber lighten-2">
+        <div class="row">
+            <div id="glass" class="col s6">
+                <div class="glass-wrapper">
+                    <div class="glass">
+                        <img src="img/svg/glass.svg" alt="">
+                    </div>
+                    <div class="layers-wrapper">
+                        <div class="wrapper__top-fix"></div>
+                        <div class="layer layer-wrapper__4">
+                            <div class="layer-ingredient layer__4"></div>
+                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                        </div>
+                        <div class="layer layer-wrapper__3">
+                            <div class="layer-ingredient layer__3"></div>
+                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                        </div>
+                        <div class="layer layer-wrapper__2">
+                            <div class="layer-ingredient layer__2"></div>
+                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                        </div>
+                        <div class="layer layer-wrapper__1">
+                            <div class="layer-ingredient layer__1"></div>
+                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-btns">
+                    <a class="waves-effect waves-light btn red clickable">Clear
+                        <!-- <i class="material-icons right">layers_clear</i> -->
+                    </a>
+                    <a class="waves-effect waves-light btn green clickable modal-trigger" href="#modal1">Save
+                        <!-- <i class="material-icons right1">get_app</i> -->
+                    </a>
+                </div>
+            </div>
+            <!-- <div>  
+                        <a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">
+                            <i class="material-icons right">get_app</i>Save</a>
+                    </div> -->
+            <div id="ingredients" class="col s6">
+                <div></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        </div>
+    </div>
+
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/glass.js"></script>
+</body>
+</html>
