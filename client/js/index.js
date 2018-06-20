@@ -68,12 +68,7 @@ const ingredientRowItem = (item, index, arr) => {
             "</div>" : 
             ingredientRowItem(arr[nextIndex], nextIndex, arr)}`;
 };
-/*
-                <object type="image/svg+xml" data="${item.url}">
-                    <img src="${item.url}" alt=""/>
-                </object>
 
-*/
 const getChangesCount = () => {
     const container = $('#ingredients > div:first-child');
     const rowHeight = container.find('.row:first-child').outerHeight(true);
@@ -137,11 +132,12 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             updatePageBar(container);
         }));
     }
-    //--all browsers!
+
+    $('.tooltipped').tooltip();
 };
 
 const getIngredients = () => {
-    $.ajax({
+    return $.ajax({
             type: 'GET',
             url: '/api/ingredients',
             dataType: 'json',
@@ -157,46 +153,41 @@ const getIngredients = () => {
         });
 };
 
-$(document).ready(() => {
-    const loadScripts = async () => {
-        await $.getScript('js/materialize/materialize.min.js', () => {
-            $('.sidenav').sidenav();
-            $('.tooltipped').tooltip();
-            $('.modal').modal();
+$(document).ready( async () => {
+    await $.getScript('js/jquery/jquery-ui.min.js');
+
+    $('#glass .layer')
+        .droppable({
+            tolerance: 'pointer',
+            accept: drag => $(drag).hasClass('clickable'),
+            drop: (e, ui) => {
+                const glass = $(ui.draggable).data('glass');
+                const item = $(e.target);
+
+                if (glass) {
+                    $(item)
+                        .find('.layer-ingredient')
+                        .css('background-image', `url("${glass}")`);
+
+                    $(item)
+                        .find('.layer-cross')
+                        .removeClass('hidden');
+                }
+            }
         });
 
-        await $.getScript('js/jquery/jquery-ui.min.js');
-    };
+    await $.getScript('js/materialize/materialize.min.js');
 
-    loadScripts()
-        .then(() => {
-            $('#glass .layer')
-                .droppable({
-                    tolerance: 'pointer',
-                    accept: drag => $(drag).hasClass('clickable'),
-                    drop: (e, ui) => {
-                        const glass = $(ui.draggable).data('glass');
-                        const item = $(e.target);
+    $('.sidenav').sidenav();
+    $('.modal').modal();
 
-                        if (glass) {
-                            $(item)
-                                .find('.layer-ingredient')
-                                .css('background-image', `url("${glass}")`);
-                            $(item)
-                                .find('.layer-cross')
-                                .removeClass('hidden');
-                        }
-                    }
-                });
-
-            getIngredients();
-        });
+    await getIngredients();
 
     $('.layer-cross').click(e => {
         const item = $(e.target);
+        
         $(item).prev().css('background-image', '');
         $(item).addClass('hidden');
-
     });
 });
 
