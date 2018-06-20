@@ -4,7 +4,6 @@ require("chai").should();
 const request = require("supertest");
 
 const startServer = require("../../server/server");
-const { getImageLink } = require("../../server/controllers/ingredientsController");
 
 describe("Get ingredients", () => {
     const REGION = process.env.REGION;
@@ -13,34 +12,6 @@ describe("Get ingredients", () => {
 
     before("Start server", () => {
         SERVER = startServer();
-    });
-
-    describe("Image link", () => {
-        it("should be correct with correct arguments", () => {
-            const mocks = [
-                {
-                    data: { id: "id", bucket: "bucket" },
-                    result: `https://s3.${REGION}.amazonaws.com/bucket/id.svg`
-                },
-                {
-                    data: { id: "aasfas", bucket: "allafsal" },
-                    result: `https://s3.${REGION}.amazonaws.com/allafsal/aasfas.svg`
-                }
-            ];
-
-            mocks.map( ({ data, result }) => getImageLink(data).should.equal(result) );
-        });
-
-        it("should throw 'Missing params' error when arguments are missing", () => {
-            const mocks = [
-                { data: { id: "", bucket: "" } },
-                { data: { id: undefined, bucket: "fUnCtioN" } },
-                { data: { id: "id", bucket: null } }
-            ];
-
-            mocks.map( ({ data }) => 
-                ( () => getImageLink(data) ).should.throw(Error, "Missing params") );
-        });
     });
 
     describe("Response", () => {
@@ -72,12 +43,16 @@ describe("Get ingredients", () => {
             const resp = await request(SERVER).get("/api/ingredients");
     
             const letters = "([a-z]|[A-Z])+";
-            const linkRegexp = new RegExp(
+            const s3Regexp = new RegExp(
                 `^https://s3.${REGION}.amazonaws.com/${letters}((-|.)${letters})*/${letters}(-${letters})*.svg$`
+            );
+            
+            const cdnRegexp = new RegExp(
+                `^http://d3d6keyfsww29d.cloudfront.net/${letters}(-${letters})*.svg$`
             );
 
             resp.body.ingredients
-                .every( ({ glass, table }) => linkRegexp.test(glass) && linkRegexp.test(table) )
+                .every( ({ glass, table }) => cdnRegexp.test(glass) && s3Regexp.test(table) )
                 .should.be.true;
         });
     });
