@@ -1,6 +1,6 @@
 "use strict";
 
-const { dynamo } = require("../awsConnect");
+const dynamo = require("../dynamoDB");
 
 /**
  * Get ingredients list
