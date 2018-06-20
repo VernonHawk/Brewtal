@@ -6,8 +6,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="img/favicon.ico">
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"> -->
     <link rel="stylesheet" href="css/materialize/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/table.css">
@@ -81,56 +79,56 @@
                 <a id="btn-save" class="waves-effect waves-light btn-small amber darken-3">
                     <i class="material-icons right">get_app</i>Save</a>
                 <a id="btn-clear" class="waves-effect waves-light btn-small amber darken-3">
-                    <i class="material-icons right">clear</i>Clear</a>
+                    <i class="material-icons right">loop</i>Another one</a>
                 <a id="btn-share" class="waves-effect waves-light btn-small amber darken-3">Share</a>
             </div>
         </div>
-        <div class="footer-copyright amber darken-1">© 2018 Copyright
+        <div class="footer-copyright amber darken-1">© Salvador Dali 2018 Copyright
         </div>
         <img id="image-preview" alt="" class="responsive-img amber">
     </div>
 
     <script language="javascript" type="text/javascript">
-        // window.onload = function () {
-        //     var worker = null;
-        //     var loaded = 0;
+        window.onload = function () {
+            var worker = null;
+            var loaded = 0;
 
-        //     $('main > .row').css('visibility','hidden');
-        //     function increment() {
-        //         $('#counter').html(loaded + '%');
-        //         $('#drink').css('top', (100 - loaded * .9) + '%');
-        //         if (loaded == 25) $('#cubes div:nth-child(1)').fadeIn(100);
-        //         if (loaded == 50) $('#cubes div:nth-child(2)').fadeIn(100);
-        //         if (loaded == 75) $('#cubes div:nth-child(3)').fadeIn(100);
-        //         if (loaded == 100) {
-        //             $('#lemon').fadeIn(100);
-        //             $('#straw').fadeIn(300);
-        //             loaded = 0;
-        //             stopLoading();
+            $('main > .row').css('visibility','hidden');
+            function increment() {
+                $('#counter').html(loaded + '%');
+                $('#drink').css('top', (100 - loaded * .9) + '%');
+                if (loaded == 25) $('#cubes div:nth-child(1)').fadeIn(100);
+                if (loaded == 50) $('#cubes div:nth-child(2)').fadeIn(100);
+                if (loaded == 75) $('#cubes div:nth-child(3)').fadeIn(100);
+                if (loaded == 100) {
+                    $('#lemon').fadeIn(100);
+                    $('#straw').fadeIn(300);
+                    loaded = 0;
+                    stopLoading();
 
-        //             setTimeout(ready, 200);
-        //         } else loaded++;
-        //     }
+                    setTimeout(ready, 200);
+                } else loaded++;
+            }
 
 
-        //     function startLoading() {
-        //         $('#lemon').hide();
-        //         $('#straw').hide();
-        //         $('#cubes div').hide();
-        //         worker = setInterval(increment, 30);
-        //     }
+            function startLoading() {
+                $('#lemon').hide();
+                $('#straw').hide();
+                $('#cubes div').hide();
+                worker = setInterval(increment, 15);
+            }
 
-        //     function stopLoading() {
-        //         clearInterval(worker);
-        //     }
+            function stopLoading() {
+                clearInterval(worker);
+            }
 
-        //     function ready() {
-        //         $('#loader').remove();
-        //         $('main > .row').css('visibility','visible');
-        //     }
+            function ready() {
+                $('#loader').remove();
+                $('main > .row').css('visibility','visible');
+            }
 
-        //     startLoading();
-        // };
+            startLoading();
+        };
     </script>
     <script src="js/jquery/jquery.min.js"></script>
     <script src="js/index.js"></script>

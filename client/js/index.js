@@ -34,60 +34,24 @@ class Ingredients {
     }
 }
 
-//let ingredientList = [];
-let ingredientList = [{ //delete
-    id: 's0',
-    name: 'Stone1',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    table: '../img/svg/stone.svg',
-    glass: '../img/svg/ingredient-backgrounds/stone.svg'
-}, {
-    id: 's1',
-    name: 'Stone2',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    table: '../img/svg/stone.svg',
-    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
-}, {
-    id: 's2',
-    name: 'Stone3',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    table: '../img/svg/stone.svg',
-    glass: '../img/svg/ingredient-backgrounds/orange.svg'
-}, {
-    id: 's3',
-    name: 'Stone4',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
-    table: '../img/svg/stone.svg',
-    glass: '../img/svg/ingredient-backgrounds/tomato.svg'
-}, {
-    id: 's4',
-    name: 'Stone5',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    table: '../img/svg/stone.svg',
-    glass: '../img/svg/ingredient-backgrounds/stone.svg'
-}, {
-    id: 's5',
-    name: 'Grass1',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    table: '../img/svg/stone.svg',
-    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
-}, {
-    id: 's6',
-    name: 'Grass2',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    table: '../img/svg/stone.svg'
-}, {
-    id: 's7',
-    name: 'Grass3',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    table: '../img/svg/stone.svg'
-}, {
-    id: 's8',
-    name: 'Grass4',
-    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
-    table: '../img/svg/stone.svg'
-}];
+let ingredientList = [];
 
+const loadTooltips = () => {
+    $.getScript('js/materialize/materialize.min.js', () => {
+        $('.tooltipped').tooltip();
+    });
+};
+
+const loadScripts = async () => {
+    await $.getScript('js/materialize/materialize.min.js', () => {
+        $('.sidenav').sidenav();
+        $('.modal').modal({
+            onCloseEnd: () => $('#image-preview').prop('src', '')
+        });
+    });
+
+    await $.getScript('js/jquery/jquery-ui.min.js');
+};
 const updatePageBar = container => {
     const rowCount = container.find('.row').length;
     const maxRowCount = Math.ceil(ingredientList.length / ingredients.itemPerRow);
@@ -108,7 +72,7 @@ const ingredientRowItem = (item, index, arr) => {
         ${index === 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} 
              data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.id}" href="#" class="col s12 clickable" data-glass="${item.glass}">
+            <a id="${item.id}" href="#" class="col s12 clickable" data-layer="${item.name}" data-glass="${item.glass}">
                 <img src="${item.table}" alt=""/>
             </a>
         </div>
@@ -152,7 +116,6 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
                 zIndex: 100,
                 drag: (e, ui) => $(ui.helper).width($(e.target).outerWidth(true))
             }).promise();
-
         if (!j) {
             availableRowCount = getAvailableRowCount(container);
         }
@@ -163,6 +126,8 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             break;
         }
     }
+
+    loadTooltips();
 
     if ($('#pagebar').length) {
         updatePageBar(container);
@@ -201,23 +166,18 @@ const getIngredients = () => {
 };
 
 const clearLayers = item => {
-    $(item).addClass('hidden').prev().css('background-image', '');
+    $(item)
+        .addClass('hidden')
+        .prev().css('background-image', '')
+        .removeClass('hoverable');
+    $('.tooltipped[class~=layer-ingredient]').tooltip('destroy');
+
     if ($('.layer-cross').length === $('.layer-cross[class~=hidden]').length) {
         $('.glass-btns > a').addClass('disable');
     }
 };
 
 $(document).ready(() => {
-    const loadScripts = async () => {
-        await $.getScript('js/materialize/materialize.min.js', () => {
-            $('.sidenav').sidenav();
-            $('.tooltipped').tooltip();
-            $('.modal').modal();
-        });
-
-        await $.getScript('js/jquery/jquery-ui.min.js');
-    };
-
     loadScripts()
         .then(() => {
             $('#glass .layer')
@@ -226,19 +186,19 @@ $(document).ready(() => {
                     accept: drag => $(drag).hasClass('clickable'),
                     drop: (e, ui) => {
                         const item = $(e.target);
-                        const glass = $(ui.draggable).data('glass');
+                        const glass = $(ui.draggable);
 
                         if (glass) {
-                            $(item)
+                            item
                                 .find('.layer-ingredient')
-                                .css('background-image', `url("${glass}")`);
-                                console.log(item);
-                            // $(item)
-                            //     .addClass('tooltipped');
-                            // $(item)
-                            //     .data('position', 'bottom')
-                            //     .data('tooltip', `${item.name}`);
-                            $(item)
+                                .css('background-image', `url("${glass.data('glass')}")`)
+                                .addClass('tooltipped hoverable')
+                                .attr({
+                                    ['data-position']: 'right',
+                                    ['data-tooltip']: `${glass.data('layer')}`
+                                });
+                            loadTooltips();
+                            item
                                 .find('.layer-cross')
                                 .removeClass('hidden');
                             $('.glass-btns >a').removeClass('disable');
@@ -252,15 +212,12 @@ $(document).ready(() => {
     $('.layer-cross').click(e => clearLayers(e.target));
     $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
     $('.glass-btns > a:last-child').click(() => {
-        $.getScript('js/dom-to-image.js', () => {
-            const img = $('#glass')[0];
-
-            domtoimage.toPng(img, {
-                    filter: node => !$(node).hasClass('clickable'),
-                    bgcolor: $(img).css('background-color')
+        $.getScript('js/dom-to-image.min.js', () => {
+            domtoimage.toPng($('#glass')[0], {
+                    filter: node => !$(node).hasClass('clickable')
                 })
                 .then(dataUrl => {
-                    $('#image-preview').attr('src', dataUrl);
+                    $('#image-preview').prop('src', dataUrl);
                 })
                 .catch(error => {
                     console.error('oops, something went wrong!', error);
@@ -271,12 +228,12 @@ $(document).ready(() => {
     $('#btn-save').click(() => {
         const img = $('#image-preview').clone();
         const a = $('<a>')
-            .attr('href', $(img).attr('src'))
-            .attr('download', 'image.png')
-            .append($(img));
+            .prop('href', img.prop('src'))
+            .prop('download', 'image.png')
+            .append(img);
 
-        $(img).click();
-        $(a).remove();
+        img.click();
+        a.remove();
         $('#save-modal').modal('close');
     });
     $('#btn-clear').click(() => {
