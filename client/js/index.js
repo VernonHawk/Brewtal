@@ -181,7 +181,10 @@ $(document).ready(() => {
                         if (glass) {
                             $(item)
                                 .find('.layer-ingredient')
-                                .css('background-image', `url("${glass}")`);
+                                .css('background-image', `url("${glass}")`).addClass('tooltipped').attr({
+                                        ['data-position']: 'bottom',
+                                        ['data-tooltip']: 'tooltip'
+                                    });
                             $(item)
                                 .find('.layer-cross')
                                 .removeClass('hidden');
@@ -195,6 +198,7 @@ $(document).ready(() => {
     $('.layer-cross').click(e => {
         const item = $(e.target);
         $(item).prev().css('background-image', '');
+        $(item).prev().removeClass('tooltipped');
         $(item).addClass('hidden');
 
     });
