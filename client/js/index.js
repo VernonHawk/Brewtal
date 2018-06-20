@@ -34,7 +34,59 @@ class Ingredients {
     }
 }
 
-let ingredientList = [];
+//let ingredientList = [];
+let ingredientList = [{ //delete
+    id: 's0',
+    name: 'Stone1',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/stone.svg'
+}, {
+    id: 's1',
+    name: 'Stone2',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
+}, {
+    id: 's2',
+    name: 'Stone3',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/orange.svg'
+}, {
+    id: 's3',
+    name: 'Stone4',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf dgfg gfdgf gfdgf gfdgdf',
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/tomato.svg'
+}, {
+    id: 's4',
+    name: 'Stone5',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/stone.svg'
+}, {
+    id: 's5',
+    name: 'Grass1',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    table: '../img/svg/stone.svg',
+    glass: '../img/svg/ingredient-backgrounds/dirt.svg'
+}, {
+    id: 's6',
+    name: 'Grass2',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    table: '../img/svg/stone.svg'
+}, {
+    id: 's7',
+    name: 'Grass3',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    table: '../img/svg/stone.svg'
+}, {
+    id: 's8',
+    name: 'Grass4',
+    description: 'Sgdfg hghgfd ggfdsgfh gfgf',
+    table: '../img/svg/stone.svg'
+}];
 
 const updatePageBar = container => {
     const rowCount = container.find('.row').length;
@@ -65,15 +117,10 @@ const ingredientRowItem = (item, index, arr) => {
             <p class="truncate">${item.description}</p>
         </div>
         ${nextIndexLast || nextIndex % ingredients.itemPerRow === 0 ? 
-            "</div>" : 
+            '</div>' : 
             ingredientRowItem(arr[nextIndex], nextIndex, arr)}`;
 };
-/*
-                <object type="image/svg+xml" data="${item.url}">
-                    <img src="${item.url}" alt=""/>
-                </object>
 
-*/
 const getChangesCount = () => {
     const container = $('#ingredients > div:first-child');
     const rowHeight = container.find('.row:first-child').outerHeight(true);
@@ -82,7 +129,7 @@ const getChangesCount = () => {
     return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
 };
 
-const getAvailableRowCount = container => 
+const getAvailableRowCount = container =>
     Math.floor($('#ingredients').height() / container.find('.row:first-child').outerHeight(true)) - 1;
 
 const loadIngredients = async (items, startPos = 0, emptied = true) => {
@@ -123,21 +170,17 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
         $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
             $('#pagebar .clickable').click(e => {
                 const item = $(e.target);
+                const direction = item.data('direction');
+                const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
 
-                if (!item.hasClass('disable')) {
-                    const direction = item.data('direction');
-                    const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
-
-                    loadIngredients(ingredientList, direction === -1 ?
-                        (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
-                        container.find('.tooltipped:last').data('index') + 1);
-                }
+                loadIngredients(ingredientList, direction === -1 ?
+                    (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
+                    container.find('.tooltipped:last').data('index') + 1);
             });
 
             updatePageBar(container);
         }));
     }
-    //--all browsers!
 };
 
 const getIngredients = () => {
@@ -157,7 +200,12 @@ const getIngredients = () => {
         });
 };
 
-const clearLayers = item => $(item).addClass('hidden').prev().css('background-image', '');
+const clearLayers = item => {
+    $(item).addClass('hidden').prev().css('background-image', '');
+    if ($('.layer-cross').length === $('.layer-cross[class~=hidden]').length) {
+        $('.glass-btns > a').addClass('disable');
+    }
+};
 
 $(document).ready(() => {
     const loadScripts = async () => {
@@ -177,16 +225,23 @@ $(document).ready(() => {
                     tolerance: 'pointer',
                     accept: drag => $(drag).hasClass('clickable'),
                     drop: (e, ui) => {
-                        const glass = $(ui.draggable).data('glass');
                         const item = $(e.target);
+                        const glass = $(ui.draggable).data('glass');
 
                         if (glass) {
                             $(item)
                                 .find('.layer-ingredient')
                                 .css('background-image', `url("${glass}")`);
+                                console.log(item);
+                            // $(item)
+                            //     .addClass('tooltipped');
+                            // $(item)
+                            //     .data('position', 'bottom')
+                            //     .data('tooltip', `${item.name}`);
                             $(item)
                                 .find('.layer-cross')
                                 .removeClass('hidden');
+                            $('.glass-btns >a').removeClass('disable');
                         }
                     }
                 });
@@ -194,11 +249,39 @@ $(document).ready(() => {
             getIngredients();
         });
 
-    $('.layer-cross').click(e => {
-        clearLayers($(e.target));
+    $('.layer-cross').click(e => clearLayers(e.target));
+    $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
+    $('.glass-btns > a:last-child').click(() => {
+        $.getScript('js/dom-to-image.js', () => {
+            const img = $('#glass')[0];
+
+            domtoimage.toPng(img, {
+                    filter: node => !$(node).hasClass('clickable'),
+                    bgcolor: $(img).css('background-color')
+                })
+                .then(dataUrl => {
+                    $('#image-preview').attr('src', dataUrl);
+                })
+                .catch(error => {
+                    console.error('oops, something went wrong!', error);
+                });
+        });
     });
-    $('.glass-btns > a:first-child').click(() => {
-        clearLayers($('.layer-cross'));
+
+    $('#btn-save').click(() => {
+        const img = $('#image-preview').clone();
+        const a = $('<a>')
+            .attr('href', $(img).attr('src'))
+            .attr('download', 'image.png')
+            .append($(img));
+
+        $(img).click();
+        $(a).remove();
+        $('#save-modal').modal('close');
+    });
+    $('#btn-clear').click(() => {
+        $('.glass-btns > a:first-child').click();
+        $('#save-modal').modal('close');
     });
 });
 
@@ -221,7 +304,7 @@ $(window).resize(() => {
                 container.find('.row:first > .tooltipped:first').data('index') +
                 ingredients.currentItemCount,
                 false);
-                
+
             changesCount--;
         }
     }
