@@ -36,22 +36,6 @@ class Ingredients {
 
 let ingredientList = [];
 
-const loadTooltips = () => {
-    $.getScript('js/materialize/materialize.min.js', () => {
-        $('.tooltipped').tooltip();
-    });
-};
-
-const loadScripts = async () => {
-    await $.getScript('js/materialize/materialize.min.js', () => {
-        $('.sidenav').sidenav();
-        $('.modal').modal({
-            onCloseEnd: () => $('#image-preview').prop('src', '')
-        });
-    });
-
-    await $.getScript('js/jquery/jquery-ui.min.js');
-};
 const updatePageBar = container => {
     const rowCount = container.find('.row').length;
     const maxRowCount = Math.ceil(ingredientList.length / ingredients.itemPerRow);
@@ -127,8 +111,6 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
         }
     }
 
-    loadTooltips();
-
     if ($('#pagebar').length) {
         updatePageBar(container);
     } else {
@@ -146,10 +128,11 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             updatePageBar(container);
         }));
     }
+    $('.tooltipped').tooltip();
 };
 
 const getIngredients = () => {
-    $.ajax({
+    return $.ajax({
             type: 'GET',
             url: '/api/ingredients',
             dataType: 'json',
@@ -177,9 +160,9 @@ const clearLayers = item => {
     }
 };
 
-$(document).ready(() => {
-    loadScripts()
-        .then(() => {
+$(document).ready(async () => {
+    await $.getScript('js/jquery/jquery-ui.min.js');
+
             $('#glass .layer')
                 .droppable({
                     tolerance: 'pointer',
@@ -197,7 +180,7 @@ $(document).ready(() => {
                                     ['data-position']: 'right',
                                     ['data-tooltip']: `${glass.data('layer')}`
                                 });
-                            loadTooltips();
+                            $('.tooltipped').tooltip();
                             item
                                 .find('.layer-cross')
                                 .removeClass('hidden');
@@ -206,9 +189,12 @@ $(document).ready(() => {
                     }
                 });
 
-            getIngredients();
-        });
+                await $.getScript('js/materialize/materialize.min.js');
 
+    $('.sidenav').sidenav();
+    $('.modal').modal();
+
+    await getIngredients();
     $('.layer-cross').click(e => clearLayers(e.target));
     $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
     $('.glass-btns > a:last-child').click(() => {
