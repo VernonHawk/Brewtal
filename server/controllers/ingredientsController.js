@@ -1,6 +1,6 @@
 "use strict";
 
-const { dynamo } = require("../awsConnect");
+const dynamo = require("../dynamoDB");
 
 /**
  * Get ingredients list
@@ -21,8 +21,8 @@ async function getIngredients(req, res) {
             id, 
             name: name || id,
             description: Description || "",
-            table: getImageLink({ id, bucket: process.env.BUCKET_TABLE }),
-            glass: getImageLink({ id, bucket: process.env.BUCKET_GLASS })
+            table: `https://s3.${ process.env.REGION }.amazonaws.com/${ process.env.BUCKET_TABLE }/${ id }.svg`,
+            glass: `http://d3d6keyfsww29d.cloudfront.net/${ id }.svg`
         }));
         
         res.status(200).json({ ingredients });
@@ -34,21 +34,4 @@ async function getIngredients(req, res) {
     }
 }
 
-/**
- * Get link to the image at S3
-
- * @param {Object} params Function params
- * @param {String} params.id Igredient id
- * @param {String} params.bucket Bucket name
- * 
- * @returns {String} Link to the image
- */
-function getImageLink({ id, bucket }) {
-    if (!id || !bucket) {
-        throw new Error("Missing params");
-    }
-
-    return `https://s3.${ process.env.REGION }.amazonaws.com/${ bucket }/${ id }.svg`;
-}
-
-module.exports = { getIngredients, getImageLink };
+module.exports = { getIngredients };

@@ -187,9 +187,9 @@ footer {
     position: absolute;
     bottom: 10%;
     width: 100%;
-    font-size: 0;
+    /* font-size: 0; */
     text-align: center;
-    padding-right: 10px;
+    padding-right: 0.5em;
 }
 
 .glass-btns a+a {

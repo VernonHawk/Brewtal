@@ -55,8 +55,8 @@ const ingredientRowItem = (item, index, arr) => {
     return `
         ${index === 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} 
-             data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.id}" href="#" class="col s12 clickable" data-glass="${item.glass}">
+             data-position="top" data-tooltip="Drag me!">
+            <a id="${item.id}" href="#" class="col s12 clickable" data-name="${item.name}" data-glass="${item.glass}">
                 <img src="${item.table}" alt=""/>
             </a>
         </div>
@@ -65,15 +65,10 @@ const ingredientRowItem = (item, index, arr) => {
             <p class="truncate">${item.description}</p>
         </div>
         ${nextIndexLast || nextIndex % ingredients.itemPerRow === 0 ? 
-            "</div>" : 
+            '</div>' : 
             ingredientRowItem(arr[nextIndex], nextIndex, arr)}`;
 };
-/*
-                <object type="image/svg+xml" data="${item.url}">
-                    <img src="${item.url}" alt=""/>
-                </object>
 
-*/
 const getChangesCount = () => {
     const container = $('#ingredients > div:first-child');
     const rowHeight = container.find('.row:first-child').outerHeight(true);
@@ -82,7 +77,7 @@ const getChangesCount = () => {
     return Math.floor(parentHeight / rowHeight) - container.find('.row').length - 1;
 };
 
-const getAvailableRowCount = container => 
+const getAvailableRowCount = container =>
     Math.floor($('#ingredients').height() / container.find('.row:first-child').outerHeight(true)) - 1;
 
 const loadIngredients = async (items, startPos = 0, emptied = true) => {
@@ -123,25 +118,24 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
         $('#ingredients').append($('<div>').load('parts/pagebar.html', () => {
             $('#pagebar .clickable').click(e => {
                 const item = $(e.target);
+                const direction = item.data('direction');
+                const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
 
-                if (!item.hasClass('disable')) {
-                    const direction = item.data('direction');
-                    const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
-
-                    loadIngredients(ingredientList, direction === -1 ?
-                        (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
-                        container.find('.tooltipped:last').data('index') + 1);
-                }
+                loadIngredients(ingredientList, 
+                    direction === -1 ?
+                    (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
+                    container.find('.tooltipped:last').data('index') + 1);
             });
 
             updatePageBar(container);
         }));
     }
-    //--all browsers!
+
+    activateTooltips();
 };
 
 const getIngredients = () => {
-    $.ajax({
+    return $.ajax({
             type: 'GET',
             url: '/api/ingredients',
             dataType: 'json',
@@ -153,50 +147,101 @@ const getIngredients = () => {
             }
 
             ingredients = new Ingredients(2);
+
             loadIngredients(ingredientList);
         });
 };
 
-$(document).ready(() => {
-    const loadScripts = async () => {
-        await $.getScript('js/materialize/materialize.min.js', () => {
-            $('.sidenav').sidenav();
-            $('.tooltipped').tooltip();
-            $('.modal').modal();
+const clearLayers = item => {
+    $(item)
+        .addClass('hidden')
+        .prev().css('background-image', '')
+        .removeClass('hoverable');
+
+    $('.tooltipped[class~=layer-ingredient]').tooltip('destroy');
+
+    if ($('.layer-cross').length === $('.layer-cross[class~=hidden]').length) {
+        $('.glass-btns > a').addClass('disable');
+    }
+};
+
+function activateTooltips() {
+    $('.tooltipped').tooltip();
+}
+
+$(document).ready(async () => {
+    await $.getScript('js/jquery/jquery-ui.min.js');
+
+    $('#glass .layer')
+        .droppable({
+            tolerance: 'pointer',
+            accept: drag => $(drag).hasClass('clickable'),
+            drop: (e, ui) => {
+                const item = $(e.target);
+                const glass = $(ui.draggable);
+
+                if (glass) {
+                    item
+                        .find('.layer-ingredient')
+                        .css('background-image', `url("${glass.data('glass')}")`)
+                        .addClass('tooltipped hoverable')
+                        .attr({
+                            ['data-position']: 'right',
+                            ['data-tooltip']: `${glass.data('name')}`
+                        });
+
+                    activateTooltips();
+
+                    item
+                        .find('.layer-cross')
+                        .removeClass('hidden');
+                    $('.glass-btns >a').removeClass('disable');
+                }
+            }
         });
 
-        await $.getScript('js/jquery/jquery-ui.min.js');
-    };
+    await $.getScript('js/materialize/materialize.min.js');
 
-    loadScripts()
-        .then(() => {
-            $('#glass .layer')
-                .droppable({
-                    tolerance: 'pointer',
-                    accept: drag => $(drag).hasClass('clickable'),
-                    drop: (e, ui) => {
-                        const glass = $(ui.draggable).data('glass');
-                        const item = $(e.target);
+    $('.sidenav').sidenav();
+    $('.modal').modal();
 
-                        if (glass) {
-                            $(item)
-                                .find('.layer-ingredient')
-                                .css('background-image', `url("${glass}")`);
-                            $(item)
-                                .find('.layer-cross')
-                                .removeClass('hidden');
-                        }
-                    }
-                });
+    await getIngredients();
 
-            getIngredients();
-        });
+    $('.layer-cross').click(e => clearLayers(e.target));
+    $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
 
-    $('.layer-cross').click(e => {
-        const item = $(e.target);
-        $(item).prev().css('background-image', '');
-        $(item).addClass('hidden');
+    await $.getScript('js/dom-to-image/dom-to-image.min.js');
 
+    $('.glass-btns > a:last-child').click(() => {
+        domtoimage.toPng($('.glass-wrapper')[0], {
+                filter: node => !$(node).hasClass('clickable'),
+                bgcolor: "#f2eded"
+            })
+            .then(dataUrl => {
+                $('#image-preview').prop('src', dataUrl);
+            })
+            .catch(error => {
+                console.error('Oops, something went wrong!', error);
+            });
+    });
+
+    $('#btn-save').click(() => {
+        const img = $('#image-preview').clone();
+
+        const a = $('<a>')
+            .prop('href', img.prop('src'))
+            .prop('download', 'image.png')
+            .append(img);
+
+        img.click();
+        a.remove();
+
+        $('#save-modal').modal('close');
+    });
+    
+    $('#btn-clear').click(() => {
+        $('.glass-btns > a:first-child').click();
+        $('#save-modal').modal('close');
     });
 });
 
@@ -219,7 +264,7 @@ $(window).resize(() => {
                 container.find('.row:first > .tooltipped:first').data('index') +
                 ingredients.currentItemCount,
                 false);
-                
+
             changesCount--;
         }
     }
