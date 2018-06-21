@@ -5,8 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="img/favicon.ico">
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"> -->
     <link rel="stylesheet" href="css/materialize/materialize.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/table.css">
@@ -14,7 +12,22 @@
 
 <body>
     <main class="amber lighten-2">
-        <div class="row">
+        <div id="loader">
+            <div id="lemon"></div>
+            <div id="straw"></div>
+            <div id="glassful">
+                <div id="cubes">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div id="drink"></div>
+                <span id="counter"></span>
+            </div>
+            <div id="coaster"></div>
+        </div>
+
+        <div class="row" style="visibility: hidden">
             <div id="glass" class="col s6">
                 <div class="glass-wrapper">
                     <div class="glass">
@@ -41,18 +54,14 @@
                     </div>
                 </div>
                 <div class="glass-btns">
-                    <a class="waves-effect waves-light btn red clickable">Clear
-                        <!-- <i class="material-icons right">layers_clear</i> -->
+                    <a class="waves-effect waves-light btn red clickable disable">
+                        <i class="material-icons right">clear_all</i>Clear
                     </a>
-                    <a class="waves-effect waves-light btn green clickable modal-trigger" href="#modal1">Save
-                        <!-- <i class="material-icons right1">get_app</i> -->
+                    <a class="waves-effect waves-light btn green clickable modal-trigger disable" href="#save-modal">
+                        <i class="material-icons right">image</i>Preview
                     </a>
                 </div>
             </div>
-            <!-- <div>  
-                        <a class="waves-effect waves-light btn-large modal-trigger" href="#modal1">
-                            <i class="material-icons right">get_app</i>Save</a>
-                    </div> -->
             <div id="ingredients" class="col s6">
                 <div></div>
             </div>
@@ -60,17 +69,26 @@
     </main>
 
     <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+    <div id="save-modal" class="modal bottom-sheet amber">
+        <a class="modal-close btn-flat right">
+            <i class="material-icons">close</i>
+        </a>
+        <div class="modal-content container row">
+            <div class="col offset-s2 s8">
+                <a id="btn-save" class="waves-effect waves-light btn-small amber darken-3">
+                    <i class="material-icons right">get_app</i>Save</a>
+                <a id="btn-clear" class="waves-effect waves-light btn-small amber darken-3">
+                    <i class="material-icons right">loop</i>Another one</a>
+                <!--<a id="btn-share" class="waves-effect waves-light btn-small amber darken-3">Share</a>-->
+            </div>
         </div>
-        <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+        <div class="footer-copyright amber darken-1">© Team Salvador Dali 2018 Copyright
         </div>
+        <img id="image-preview" alt="" class="responsive-img amber">
     </div>
 
     <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/preloader.js"></script>
     <script src="js/index.js"></script>
     <script src="js/glass.js"></script>
 </body>
