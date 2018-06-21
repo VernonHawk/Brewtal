@@ -55,8 +55,8 @@ const ingredientRowItem = (item, index, arr) => {
     return `
         ${index === 0 || isEven ? '<div class="row valign-wrapper">' : ''}
         <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} 
-             data-position="top" data-tooltip="I'm ${item.name}. Drag me!">
-            <a id="${item.id}" href="#" class="col s12 clickable" data-layer="${item.name}" data-glass="${item.glass}">
+             data-position="top" data-tooltip="Drag me!">
+            <a id="${item.id}" href="#" class="col s12 clickable" data-name="${item.name}" data-glass="${item.glass}">
                 <img src="${item.table}" alt=""/>
             </a>
         </div>
@@ -100,6 +100,7 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
                 zIndex: 100,
                 drag: (e, ui) => $(ui.helper).width($(e.target).outerWidth(true))
             }).promise();
+
         if (!j) {
             availableRowCount = getAvailableRowCount(container);
         }
@@ -120,7 +121,8 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
                 const direction = item.data('direction');
                 const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
 
-                loadIngredients(ingredientList, direction === -1 ?
+                loadIngredients(ingredientList, 
+                    direction === -1 ?
                     (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
                     container.find('.tooltipped:last').data('index') + 1);
             });
@@ -128,7 +130,8 @@ const loadIngredients = async (items, startPos = 0, emptied = true) => {
             updatePageBar(container);
         }));
     }
-    $('.tooltipped').tooltip();
+
+    activateTooltips();
 };
 
 const getIngredients = () => {
@@ -144,6 +147,7 @@ const getIngredients = () => {
             }
 
             ingredients = new Ingredients(2);
+
             loadIngredients(ingredientList);
         });
 };
@@ -153,6 +157,7 @@ const clearLayers = item => {
         .addClass('hidden')
         .prev().css('background-image', '')
         .removeClass('hoverable');
+
     $('.tooltipped[class~=layer-ingredient]').tooltip('destroy');
 
     if ($('.layer-cross').length === $('.layer-cross[class~=hidden]').length) {
@@ -160,59 +165,69 @@ const clearLayers = item => {
     }
 };
 
+function activateTooltips() {
+    $('.tooltipped').tooltip();
+}
+
 $(document).ready(async () => {
     await $.getScript('js/jquery/jquery-ui.min.js');
 
-            $('#glass .layer')
-                .droppable({
-                    tolerance: 'pointer',
-                    accept: drag => $(drag).hasClass('clickable'),
-                    drop: (e, ui) => {
-                        const item = $(e.target);
-                        const glass = $(ui.draggable);
+    $('#glass .layer')
+        .droppable({
+            tolerance: 'pointer',
+            accept: drag => $(drag).hasClass('clickable'),
+            drop: (e, ui) => {
+                const item = $(e.target);
+                const glass = $(ui.draggable);
 
-                        if (glass) {
-                            item
-                                .find('.layer-ingredient')
-                                .css('background-image', `url("${glass.data('glass')}")`)
-                                .addClass('tooltipped hoverable')
-                                .attr({
-                                    ['data-position']: 'right',
-                                    ['data-tooltip']: `${glass.data('layer')}`
-                                });
-                            $('.tooltipped').tooltip();
-                            item
-                                .find('.layer-cross')
-                                .removeClass('hidden');
-                            $('.glass-btns >a').removeClass('disable');
-                        }
-                    }
-                });
+                if (glass) {
+                    item
+                        .find('.layer-ingredient')
+                        .css('background-image', `url("${glass.data('glass')}")`)
+                        .addClass('tooltipped hoverable')
+                        .attr({
+                            ['data-position']: 'right',
+                            ['data-tooltip']: `${glass.data('name')}`
+                        });
 
-                await $.getScript('js/materialize/materialize.min.js');
+                    activateTooltips();
+
+                    item
+                        .find('.layer-cross')
+                        .removeClass('hidden');
+                    $('.glass-btns >a').removeClass('disable');
+                }
+            }
+        });
+
+    await $.getScript('js/materialize/materialize.min.js');
 
     $('.sidenav').sidenav();
     $('.modal').modal();
 
     await getIngredients();
+
     $('.layer-cross').click(e => clearLayers(e.target));
     $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
+
+    await $.getScript('js/dom-to-image/dom-to-image.min.js');
+
     $('.glass-btns > a:last-child').click(() => {
-        $.getScript('js/dom-to-image.min.js', () => {
-            domtoimage.toPng($('#glass')[0], {
-                    filter: node => !$(node).hasClass('clickable')
-                })
-                .then(dataUrl => {
-                    $('#image-preview').prop('src', dataUrl);
-                })
-                .catch(error => {
-                    console.error('oops, something went wrong!', error);
-                });
-        });
+        domtoimage.toPng($('.glass-wrapper')[0], {
+                filter: node => !$(node).hasClass('clickable'),
+                bgcolor: "#f2eded"
+            })
+            .then(dataUrl => {
+                $('#image-preview').prop('src', dataUrl);
+            })
+            .catch(error => {
+                console.error('Oops, something went wrong!', error);
+            });
     });
 
     $('#btn-save').click(() => {
         const img = $('#image-preview').clone();
+
         const a = $('<a>')
             .prop('href', img.prop('src'))
             .prop('download', 'image.png')
@@ -220,8 +235,10 @@ $(document).ready(async () => {
 
         img.click();
         a.remove();
+
         $('#save-modal').modal('close');
     });
+    
     $('#btn-clear').click(() => {
         $('.glass-btns > a:first-child').click();
         $('#save-modal').modal('close');

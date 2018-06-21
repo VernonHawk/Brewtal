@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Brewtal</title>
     <meta charset="utf-8">
@@ -28,7 +27,7 @@
             <div id="coaster"></div>
         </div>
 
-        <div class="row">
+        <div class="row" style="visibility: hidden">
             <div id="glass" class="col s6">
                 <div class="glass-wrapper">
                     <div class="glass">
@@ -80,59 +79,17 @@
                     <i class="material-icons right">get_app</i>Save</a>
                 <a id="btn-clear" class="waves-effect waves-light btn-small amber darken-3">
                     <i class="material-icons right">loop</i>Another one</a>
-                <a id="btn-share" class="waves-effect waves-light btn-small amber darken-3">Share</a>
+                <!--<a id="btn-share" class="waves-effect waves-light btn-small amber darken-3">Share</a>-->
             </div>
         </div>
-        <div class="footer-copyright amber darken-1">© Salvador Dali 2018 Copyright
+        <div class="footer-copyright amber darken-1">© Team Salvador Dali 2018 Copyright
         </div>
         <img id="image-preview" alt="" class="responsive-img amber">
     </div>
 
-    <script language="javascript" type="text/javascript">
-        window.onload = function () {
-            var worker = null;
-            var loaded = 0;
-
-            $('main > .row').css('visibility','hidden');
-            function increment() {
-                $('#counter').html(loaded + '%');
-                $('#drink').css('top', (100 - loaded * .9) + '%');
-                if (loaded == 25) $('#cubes div:nth-child(1)').fadeIn(100);
-                if (loaded == 50) $('#cubes div:nth-child(2)').fadeIn(100);
-                if (loaded == 75) $('#cubes div:nth-child(3)').fadeIn(100);
-                if (loaded == 100) {
-                    $('#lemon').fadeIn(100);
-                    $('#straw').fadeIn(300);
-                    loaded = 0;
-                    stopLoading();
-
-                    setTimeout(ready, 200);
-                } else loaded++;
-            }
-
-
-            function startLoading() {
-                $('#lemon').hide();
-                $('#straw').hide();
-                $('#cubes div').hide();
-                worker = setInterval(increment, 15);
-            }
-
-            function stopLoading() {
-                clearInterval(worker);
-            }
-
-            function ready() {
-                $('#loader').remove();
-                $('main > .row').css('visibility','visible');
-            }
-
-            startLoading();
-        };
-    </script>
     <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/preloader.js"></script>
     <script src="js/index.js"></script>
     <script src="js/glass.js"></script>
 </body>
-
 </html>
