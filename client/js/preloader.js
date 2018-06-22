@@ -8,10 +8,10 @@ window.onload = function () {
         $('#counter').html(`${loaded}%`);
         $('#drink').css('top', `${100 - loaded * 0.9}%`);
         
-        if (loaded == 25) $('#cubes div:nth-child(1)').fadeIn(100);
-        if (loaded == 50) $('#cubes div:nth-child(2)').fadeIn(100);
-        if (loaded == 75) $('#cubes div:nth-child(3)').fadeIn(100);
-        if (loaded == 100) {
+        if (loaded === 25) $('#cubes div:nth-child(1)').fadeIn(100);
+        if (loaded === 50) $('#cubes div:nth-child(2)').fadeIn(100);
+        if (loaded === 75) $('#cubes div:nth-child(3)').fadeIn(100);
+        if (loaded === 100) {
             $('#lemon').fadeIn(100);
             $('#straw').fadeIn(300);
 
