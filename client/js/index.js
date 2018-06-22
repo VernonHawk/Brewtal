@@ -156,9 +156,8 @@ const clearLayers = item => {
     $(item)
         .addClass('hidden')
         .prev().css('background-image', '')
+        .tooltip('destroy')
         .removeClass('hoverable');
-
-    $('.tooltipped[class~=layer-ingredient]').tooltip('destroy');
 
     if ($('.layer-cross').length === $('.layer-cross[class~=hidden]').length) {
         $('.glass-btns > a').addClass('disable');
@@ -170,52 +169,59 @@ function activateTooltips() {
 }
 
 $(document).ready(async () => {
-    await $.getScript('js/jquery/jquery-ui.min.js');
+    try {
+        await $.getScript('js/jquery/jquery-ui.min.js');
 
-    $('#glass .layer')
-        .droppable({
-            tolerance: 'pointer',
-            accept: drag => $(drag).hasClass('clickable'),
-            drop: (e, ui) => {
-                const item = $(e.target);
-                const glass = $(ui.draggable);
+        $('#glass .layer')
+            .droppable({
+                tolerance: 'pointer',
+                accept: drag => $(drag).hasClass('clickable'),
+                drop: (e, ui) => {
+                    const item = $(e.target);
+                    const glass = $(ui.draggable);
 
-                if (glass) {
-                    item
-                        .find('.layer-ingredient')
-                        .css('background-image', `url("${glass.data('glass')}")`)
-                        .addClass('tooltipped hoverable')
-                        .attr({
-                            ['data-position']: 'right',
-                            ['data-tooltip']: `${glass.data('name')}`
-                        });
+                    if (glass) {
+                        item
+                            .find('.layer-ingredient')
+                            .css('background-image', `url("${glass.data('glass')}")`)
+                            .addClass('tooltipped hoverable')
+                            .attr({
+                                ['data-position']: 'right',
+                                ['data-tooltip']: `${glass.data('name')}`
+                            });
 
-                    activateTooltips();
+                        activateTooltips();
 
-                    item
-                        .find('.layer-cross')
-                        .removeClass('hidden');
-                    $('.glass-btns >a').removeClass('disable');
+                        item
+                            .find('.layer-cross')
+                            .removeClass('hidden');
+                        $('.glass-btns >a').removeClass('disable');
+                    }
                 }
-            }
+            });
+
+        await $.getScript('js/materialize/materialize.min.js');
+
+        $('.sidenav').sidenav();
+        $('.modal').modal({
+            onCloseEnd: () => $("#image-preview").prop("src", "")
         });
 
-    await $.getScript('js/materialize/materialize.min.js');
+        await getIngredients();
 
-    $('.sidenav').sidenav();
-    $('.modal').modal();
+        $('.layer-cross').click(e => clearLayers(e.target));
+        $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
 
-    await getIngredients();
+        await $.getScript('js/dom-to-image/dom-to-image.min.js');
+    } catch (error) {
+        console.log("ERROR:", error);
 
-    $('.layer-cross').click(e => clearLayers(e.target));
-    $('.glass-btns > a:first-child').click(() => clearLayers('.layer-cross'));
-
-    await $.getScript('js/dom-to-image/dom-to-image.min.js');
+        alert("Sorry, something went wrong. Try reloading the page or using another browser.");
+    }
 
     $('.glass-btns > a:last-child').click(() => {
-        domtoimage.toPng($('.glass-wrapper')[0], {
-                filter: node => !$(node).hasClass('clickable'),
-                bgcolor: "#f2eded"
+        domtoimage.toPng($('#glass')[0], {
+                filter: node => !$(node).hasClass('clickable')
             })
             .then(dataUrl => {
                 $('#image-preview').prop('src', dataUrl);
