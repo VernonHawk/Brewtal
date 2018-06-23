@@ -131,8 +131,8 @@ function activateTooltips() {
 async function initialize() {
     try {
         await getIngredients();
-    } catch (error) {
-        console.log("ERROR:", error);
+    } catch ({ cause, message }) {
+        console.log("ERROR:", cause, message);
         
         alert("Sorry, something went wrong. Try reloading the page or using another browser.");
     }

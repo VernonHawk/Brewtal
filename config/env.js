@@ -53,7 +53,7 @@ dotenvFiles.forEach(dotenvFile => {
 // We also resolve them to make sure all tools using them work consistently.
 const appDirectory = fs.realpathSync(process.cwd());
 
-process.env.NODE_PATH = (process.env.NODE_PATH || "src/client")
+process.env.NODE_PATH = (process.env.NODE_PATH || "client")
     .split(path.delimiter)
     .filter(folder => folder && !path.isAbsolute(folder))
     .map(folder => path.resolve(appDirectory, folder))

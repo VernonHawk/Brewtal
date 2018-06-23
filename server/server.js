@@ -14,7 +14,7 @@ const router = require("./router");
 
 const app = express();
 
-const BUILD_PATH = path.resolve(`${__dirname}/../${ ENV === "test" ? "public" : "build" }`);
+const BUILD_PATH = path.resolve(`${__dirname}/../${ ENV === "no_build" ? "public" : "build" }`);
 
 function mapRoutes() {
     app.use("/api", router);
