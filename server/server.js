@@ -12,16 +12,16 @@ const router = require("./router");
 
 const app = express();
 
-const CLIENT_PATH = path.resolve(`${__dirname}/../client`);
+const BUILD_PATH = path.resolve(`${__dirname}/../build`);
 
 function mapRoutes() {
     app.use("/api", router);
 
-    app.get("*", (req, res) => res.sendFile(`${CLIENT_PATH}/index.html`));
+    app.get("*", (req, res) => res.sendFile(`${BUILD_PATH}/index.html`));
 }
 
 function startServer() {
-    app.use(express.static(CLIENT_PATH));
+    app.use(express.static(BUILD_PATH));
     
     app.use(helmet());
 

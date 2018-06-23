@@ -10,7 +10,7 @@ let doc = {};
 describe("Our client", () => {
     describe("Page loading correctly...", () => {
         beforeEach( async () => {
-            const dom = await JSDOM.fromFile("client/index.html");
+            const dom = await JSDOM.fromFile("public/index.html");
             
             doc = dom.window.document;
         });

@@ -67,4 +67,4 @@ typings/
 .next
 
 # Webpack generated
-client/bundle.js
+build/**
