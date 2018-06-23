@@ -4,7 +4,9 @@ const express = require("express");
 const helmet  = require("helmet");
 const path    = require("path");
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+const ENV = process.env.NODE_ENV;
+
+if (!ENV || ENV === "development") {
     require("dotenv").config();
 }
 
@@ -12,7 +14,7 @@ const router = require("./router");
 
 const app = express();
 
-const BUILD_PATH = path.resolve(`${__dirname}/../build`);
+const BUILD_PATH = path.resolve(`${__dirname}/../${ ENV === "test" ? "public" : "build" }`);
 
 function mapRoutes() {
     app.use("/api", router);
