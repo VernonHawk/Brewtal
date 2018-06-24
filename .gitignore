@@ -48,9 +48,6 @@ typings/
 # Optional eslint cache
 .eslintcache
 
-# ESLint rules
-.eslintrc.json 
-
 # Optional REPL history
 .node_repl_history
 
@@ -67,4 +64,4 @@ typings/
 .next
 
 # Webpack generated
-client/bundle.js
+build/**

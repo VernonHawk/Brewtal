@@ -69,8 +69,8 @@
     padding: 0;
 }
 
-#ingredients {
-    background-image: url(../img/svg/table.svg);
+#table {
+    background-image: url(../img/table.svg);
     background-clip: content-box;
     height: 100%;
     position: absolute;
@@ -80,15 +80,15 @@
     padding-right: 0;
 }
 
-#ingredients .row {
+#table .row {
     margin-right: 0;
 }
 
-#ingredients>div:first-child .row:first-child {
+#ingredients {
     margin-top: 0.5em;
 }
 
-#ingredients>div:last-child {
+#pagebar {
     position: absolute;
     left: 0em;
     right: 0em;
@@ -101,7 +101,7 @@
 }
 
 #glass {
-    background: url(../img/svg/back.svg);
+    background: url(../img/back.svg);
     height: 100%;
     position: absolute;
     top: 0;

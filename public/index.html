@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
     <title>Brewtal</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="img/favicon.ico">
-    <link rel="stylesheet" href="css/materialize/materialize.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/table.css">
+    <meta name="description" content="Build an amazing cocktail and share it with your friends!">
+
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 </head>
 
 <body>
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+    
     <main class="amber lighten-2">
         <div id="loader">
             <div id="lemon"></div>
@@ -31,65 +35,74 @@
             <div id="glass" class="col s6">
                 <div class="glass-wrapper">
                     <div class="glass">
-                        <img src="img/svg/glass.svg" alt="">
+                        <img src="./img/glass.svg" alt="">
                     </div>
                     <div class="layers-wrapper">
                         <div class="wrapper__top-fix"></div>
                         <div class="layer layer-wrapper__4">
                             <div class="layer-ingredient layer__4"></div>
-                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                            <img src="./img/cross.svg" alt="" class="layer-cross clickable hidden">
                         </div>
                         <div class="layer layer-wrapper__3">
                             <div class="layer-ingredient layer__3"></div>
-                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                            <img src="./img/cross.svg" alt="" class="layer-cross clickable hidden">
                         </div>
                         <div class="layer layer-wrapper__2">
                             <div class="layer-ingredient layer__2"></div>
-                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                            <img src="./img/cross.svg" alt="" class="layer-cross clickable hidden">
                         </div>
                         <div class="layer layer-wrapper__1">
                             <div class="layer-ingredient layer__1"></div>
-                            <img src="img/svg/cross.svg" alt="" class="layer-cross clickable hidden">
+                            <img src="./img/cross.svg" alt="" class="layer-cross clickable hidden">
                         </div>
                     </div>
                 </div>
                 <div class="glass-btns">
-                    <a class="waves-effect waves-light btn red clickable disable">
+                    <a id="clear" class="waves-effect waves-light btn red clickable disable">
                         <i class="material-icons right">clear_all</i>Clear
                     </a>
-                    <a class="waves-effect waves-light btn green clickable modal-trigger disable" href="#save-modal">
+                    <a id="preview" 
+                       class="waves-effect waves-light btn green clickable modal-trigger disable" 
+                       href="#preview-modal">
                         <i class="material-icons right">image</i>Preview
                     </a>
                 </div>
             </div>
-            <div id="ingredients" class="col s6">
-                <div></div>
+
+            <div id="table" class="col s6">
+                <div id="ingredients"></div>
+                <div id="pagebar" class="row">
+                    <a href="#" class="col offset-s2 s2 clickable" data-direction="-1" title="Previous">
+                        <object type="image/svg+xml" data="img/arrow-pointing-left.svg" class="col s12">
+                            <img src="./img/arrow-pointing-left.svg" alt="" />
+                        </object>
+                    </a>
+                    <a href="#" class="col offset-s5 s2 clickable" data-direction="1" title="Next">
+                        <object type="image/svg+xml" data="img/arrow-pointing-right.svg" class="col s12">
+                            <img src="./img/arrow-pointing-right.svg" alt="" />
+                        </object>
+                    </a>
+                </div>
             </div>
         </div>
     </main>
 
     <!-- Modal Structure -->
-    <div id="save-modal" class="modal bottom-sheet amber">
+    <div id="preview-modal" class="modal bottom-sheet amber">
         <a class="modal-close btn-flat right">
             <i class="material-icons">close</i>
         </a>
         <div class="modal-content container row">
             <div class="col offset-s2 s8">
-                <a id="btn-save" class="waves-effect waves-light btn-small amber darken-3">
-                    <i class="material-icons right">get_app</i>Save</a>
-                <a id="btn-clear" class="waves-effect waves-light btn-small amber darken-3">
+                <a id="download" class="waves-effect waves-light btn btn-small amber darken-3">
+                    <i class="material-icons right">get_app</i>Download</a>
+                <a id="btn-clear" class="waves-effect waves-light btn btn-small amber darken-3">
                     <i class="material-icons right">loop</i>Another one</a>
                 <!--<a id="btn-share" class="waves-effect waves-light btn-small amber darken-3">Share</a>-->
             </div>
         </div>
-        <div class="footer-copyright amber darken-1">© Team Salvador Dali 2018 Copyright
-        </div>
+        <div class="footer-copyright amber darken-1">© Team Salvador Dali 2018 Copyright</div>
         <img id="image-preview" alt="" class="responsive-img amber">
     </div>
-
-    <script src="js/jquery/jquery.min.js"></script>
-    <script src="js/preloader.js"></script>
-    <script src="js/index.js"></script>
-    <script src="js/glass.js"></script>
 </body>
 </html>

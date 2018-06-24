@@ -1,6 +1,6 @@
-'use strict';
+import $ from 'jquery';
 
-$(window).on('resize load', function () {
+function adjustGlassSize() {
     const width = $('.glass img').width();
     const height = $('.glass').height();
     
@@ -10,4 +10,6 @@ $(window).on('resize load', function () {
     $('.layer-wrapper__1').css('width', width * 0.65);
 
     $('.layer-cross').css('height', height * 0.1);
-});
+}
+
+export default adjustGlassSize;
