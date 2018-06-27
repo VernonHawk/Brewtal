@@ -21,14 +21,14 @@ function fb_share() {
 
 function fb_login() {
   FB.login(function(response){
-    console.log(response.status);
-    // FB.api('/me/feed', 'post', {message: 'test'}, function(response) {
-    //   console.log(response);
-    // });
+    console.log('Response status: '+response.status);
     FB.ui({
       method: 'feed',
-      link: 'https://developers.facebook.com/docs/',
-      caption: 'An example caption',
+      //link: 'brewtal link goes here',
+      //redirect_uri: 'google.com',
+      caption: 'Test FB API',
+      picture: 'https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=350',
+      description: 'This is a dog.'
     }, function(response){});
   }, {scope: 'publish_pages,manage_pages'});
 }
