@@ -15,8 +15,22 @@ window.fbAsyncInit = function() {
    fjs.parentNode.insertBefore(js, fjs);
  }(document, 'script', 'facebook-jssdk'));
 
+function fb_share() {
+  fb_login();
+}
+
 function fb_login() {
   FB.login(function(response){
     console.log(response.status);
-  });
+    // FB.api('/me/feed', 'post', {message: 'test'}, function(response) {
+    //   console.log(response);
+    // });
+    FB.ui({
+      method: 'feed',
+      link: 'https://developers.facebook.com/docs/',
+      caption: 'An example caption',
+    }, function(response){});
+  }, {scope: 'publish_pages,manage_pages'});
 }
+
+

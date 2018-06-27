@@ -208,7 +208,7 @@ const clearLayers = item => {
 };
 
 $(document).ready(() => {
-    $('.fb-btn').click(fb_login);
+    $('.fb-btn').click(fb_share);
 
     const loadScripts = async () => {
         await $.getScript('js/materialize/materialize.min.js', () => {
