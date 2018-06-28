@@ -31,18 +31,18 @@ const ingredientRowItem = (item, index, arr) => {
 
     return `
         ${index === 0 || isEven ? '<div class="row valign-wrapper">' : ''}
-        <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index} 
+        <div class="col ${isEven ? 'offset-s2' : ''} s2 tooltipped" data-index=${index}
              data-position="top" data-tooltip="Drag me!">
             <a id="${item.id}" href="#" class="col s12 clickable" data-name="${item.name}" data-glass="${item.glass}">
                 <img src="${item.table}" alt=""/>
             </a>
         </div>
         <div class="col ${nextIndexLast && isEven ? 's8' : 's3'}">
-            <h5>${item.name}</h5>
+            <h5 class="ingredient__header">${item.name}</h5>
             <p class="truncate">${item.description}</p>
         </div>
-        ${nextIndexLast || nextIndex % ingredients.itemPerRow === 0 ? 
-            '</div>' : 
+        ${nextIndexLast || nextIndex % ingredients.itemPerRow === 0 ?
+            '</div>' :
             ingredientRowItem(arr[nextIndex], nextIndex, arr)}`;
 };
 
@@ -133,7 +133,7 @@ async function initialize() {
         await getIngredients();
     } catch ({ cause, message }) {
         console.log('ERROR:', cause, message);
-        
+
         alert('Sorry, something went wrong. Try reloading the page or using another browser.');
     } finally {
         $('.modal').modal();
@@ -166,15 +166,15 @@ async function initialize() {
                     }
                 }
             });
-        
+
         $('#pagebar .clickable').click(e => {
             const container = INGREDIENTS_CONTAINER;
-            
+
             const item = $(e.target);
             const direction = item.data('direction');
             const itemCount = getAvailableRowCount(container) * ingredients.itemPerRow;
-            
-            loadIngredients(ingredientList, 
+
+            loadIngredients(ingredientList,
                 direction === -1 ?
                 (Math.ceil(container.find('.tooltipped:first').data('index') / itemCount) - 1) * itemCount :
                 container.find('.tooltipped:last').data('index') + 1);
@@ -211,7 +211,7 @@ async function initialize() {
 
             $('#preview-modal').modal('close');
         });
-        
+
         $('#btn-clear').click(() => {
             $('#clear').click();
             $('#preview-modal').modal('close');
