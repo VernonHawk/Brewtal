@@ -191,3 +191,14 @@ main {
 .glass-btns a+a {
     margin-left: 10%;
 }
+
+.truncate {
+    white-space: normal !important;
+    word-wrap: break-word;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.ingredient__header {
+    font-weight: 500;
+}
