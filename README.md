@@ -94,10 +94,10 @@ Continious Delivery system, which handles the deployment, is triggered by push t
 
 ## Authors
 
-- **Ladislava Klischenko** - *Project manager, manual QA* - [LadaKlischenko](https://github.com/LadaKlischenko)
-- **Igor Morenec** - *Team lead, back-end, DevOps* - [VernonHawk](https://github.com/VernonHawk)
+- **Igor Morenets** - *Team lead, back-end, DevOps* - [VernonHawk](https://github.com/VernonHawk)
 - **Anna Tsukanova** - *Front-end, designer* - [AnnabellFlem](https://github.com/AnnabellFlem)
-- **Denys Melnychenko** - *Front-end, designer* - [chelicerae](https://github.com/chelicerae)
+- **Denys Melnychenko** - *Front-end* - [chelicerae](https://github.com/chelicerae)
+- **Ladislava Klischenko** - *Project manager, manual QA* - [LadaKlischenko](https://github.com/LadaKlischenko)
 
 ## License
 
